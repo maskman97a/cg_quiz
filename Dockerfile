@@ -27,7 +27,7 @@ ENV SPRING_DATASOURCE_USERNAME=cg_quiz
 ENV SPRING_DATASOURCE_PASSWORD="cg_quiz@123"
 
 # Expose the port the application runs on
-EXPOSE 80
+EXPOSE 8080
 
 # Run the application
 ENTRYPOINT ["java", "-jar", "/usr/local/lib/app.jar"]
