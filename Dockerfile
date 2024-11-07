@@ -16,7 +16,7 @@ COPY src /home/app/src
 RUN mvn -f /home/app/pom.xml clean package -DskipTests
 
 # Use OpenJDK for the final base image
-FROM openjdk:17-jdk
+FROM openjdk:21-jdk
 
 # Copy the JAR from the build stage
 COPY --from=build /home/app/target/*.jar /usr/local/lib/app.jar
