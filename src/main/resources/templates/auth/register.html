@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div th:if="${errorMsg != '' && errorMsg != null}" class="alert alert-danger" role="alert">
+        <span th:text="${errorMsg}"></span>
+    </div>
+    <form class="form row m-0" action="/auth/register" method="post" onsubmit="return validateRegister()">
+        <div class="col-12 text-center">
+            <h1>Đăng ký</h1>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label" for="inputRegUserName">Tên đăng nhập <span class="text-danger">*</span></label>
+            <div class="input-group">
+                <input class="form-control" id="inputRegUserName" type="text" name="username"
+                       onkeyup="onInputUsername()" th:value="${username}"
+                       placeholder="Tối thiểu 6 ký tự"/>
+                <span id="input-username-group-icon" class="input-group-text">
+                <i class="fa-solid fa-circle-check text-success" id="icon-valid-username"></i>
+                <i class="fa-solid fa-circle-xmark text-danger" id="icon-invalid-username"></i>
+        </span>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label" for="inputPassword">Mật khẩu <span class="text-danger">*</span></label>
+            <div class="input-group">
+                <input class="form-control " id="inputPassword" type="password" placeholder="Tối thiểu 6 ký tự"
+                       onkeyup="onInputPassword()"/>
+                <span id="input-password-group-icon" class="input-group-text">
+                <i class="fa-solid fa-circle-check text-success" id="icon-valid-password"></i>
+                <i class="fa-solid fa-circle-xmark text-danger" id="icon-invalid-password"></i>
+        </span>
+            </div>
+
+
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label" for="inputRePassword">Nhập lại Mật khẩu <span class="text-danger">*</span></label>
+            <div class="input-group">
+                <input class="form-control" id="inputRePassword" type="password" onkeyup="onInputRePassword()"
+                       placeholder="Nhập lại mật khẩu"/>
+                <span id="input-re-password-group-icon" class="input-group-text">
+                <i class="fa-solid fa-circle-check text-success" id="icon-valid-re-password"></i>
+                <i class="fa-solid fa-circle-xmark text-danger" id="icon-invalid-re-password"></i>
+        </span>
+            </div>
+        </div>
+        <input id="passwordToSend" type="password"
+               name="password" hidden/>
+        <div class="col-12 mb-3">
+            <button class="btn btn-primary form-control" type="submit">Đăng ký</button>
+            <span>Bạn đã có tài khoản? </span><a href="/auth/login">Đăng nhập</a>
+            <span class="text-danger" id="validateRegisterMsg"></span>
+        </div>
+    </form>
+</div>
+
+<script>
+    preRegister();
+
+    function preRegister() {
+        $("#icon-valid-username").hide();
+        $("#icon-invalid-username").hide();
+        $("#icon-valid-password").hide();
+        $("#icon-invalid-password").hide();
+        $("#icon-valid-re-password").hide();
+        $("#icon-invalid-re-password").hide();
+    }
+
+    function onInputUsername() {
+        let validateUsernameMsg = validateUsername();
+        if (isNullOrEmpty(validateUsernameMsg)) {
+            $("#icon-valid-username").show();
+            $("#icon-invalid-username").hide();
+        } else {
+            $("#icon-valid-username").hide();
+            $("#icon-invalid-username").show();
+        }
+    }
+
+    function onInputPassword() {
+        let validatePasswordMsg = validatePassword();
+        if (isNullOrEmpty(validatePasswordMsg)) {
+            $("#icon-valid-password").show();
+            $("#icon-invalid-password").hide();
+        } else {
+            $("#icon-valid-password").hide();
+            $("#icon-invalid-password").show();
+        }
+        if (!isNullOrEmpty($("#inputRePassword").val())) {
+            onInputRePassword();
+        }
+
+
+    }
+
+    function onInputRePassword() {
+        let validateRepasswordMsg = validateRePassword();
+        if (isNullOrEmpty(validateRepasswordMsg)) {
+            $("#icon-valid-re-password").show();
+            $("#icon-invalid-re-password").hide();
+        } else {
+            $("#icon-valid-re-password").hide();
+            $("#icon-invalid-re-password").show();
+        }
+    }
+
+    function validateRegister() {
+        let validateMsg = doValidate();
+        if (!isNullOrEmpty(validateMsg)) {
+            $("#validateRegisterMsg").html(validateMsg);
+            return false;
+        }
+        return true;
+    }
+
+    function validateUsername() {
+        let username = $("#inputRegUserName").val();
+        if (isNullOrEmpty(username)) {
+            return "Tên đăng nhập không được để trống.";
+        }
+        if (!/^[a-zA-Z0-9]+$/.test(username)) {
+            return "Tên đăng nhập chỉ gồm ký tự a-z, A-Z và số.";
+        }
+
+        if (username.length < 6) {
+            return "Tên đăng nhập tối thiểu 6 ký tự.";
+        }
+    }
+
+    function validatePassword() {
+        let pwd = $("#inputPassword").val();
+        if (isNullOrEmpty(pwd)) {
+            return "Mật khẩu không được để trống.";
+        }
+        if (pwd.length < 6) {
+            return "Mật khẩu tối thiểu 6 ký tự.";
+        }
+    }
+
+    function validateRePassword() {
+        let pwd = $("#inputPassword").val();
+        let rePwd = $("#inputRePassword").val();
+        if (isNullOrEmpty(rePwd)) {
+            return "Mật khẩu nhập lại không được để trống.";
+        }
+        if (pwd !== rePwd) {
+            return "Mật khẩu nhập lại không trùng khớp.";
+        }
+    }
+
+    function doValidate() {
+        let validateUserNameMsg = validateUsername();
+        if (!isNullOrEmpty(validateUserNameMsg)) {
+            return validateUserNameMsg;
+        }
+
+        let validatePasswordMsg = validatePassword();
+        if (!isNullOrEmpty(validatePasswordMsg)) {
+            return validatePasswordMsg;
+        }
+        let validateRePasswordMsg = validateRePassword();
+        if (!isNullOrEmpty(validateRePasswordMsg)) {
+            return validateRePasswordMsg;
+        }
+
+        let pwd = $("#inputPassword").val();
+        let pwdToSend = $("#passwordToSend");
+        pwdToSend.val(sha1(pwd));
+        return "";
+    }
+</script>
+</body>
+</html>
