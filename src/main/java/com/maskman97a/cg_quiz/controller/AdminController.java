@@ -7,15 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/home")
-public class HomeController extends BaseController {
+@RequestMapping("/admin")
+public class AdminController extends BaseController {
     @GetMapping
     public String getHomePage(HttpServletRequest httpServletRequest, Model model) {
         renderPage(httpServletRequest, model, "home", null);
         return homePage();
-    }
-    
-    public void doAbc(){
-        
     }
 }
