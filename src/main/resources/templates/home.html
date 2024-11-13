@@ -48,7 +48,7 @@
         </div>
     </div>
     <div style="height: 200px">
-<!--        <img th:src="@{/images/barber-banner.webp}" alt="Logo" width="100%" style="object-fit: contain" class="img-fluid"/>-->
+        <!--        <img th:src="@{/images/barber-banner.webp}" alt="Logo" width="100%" style="object-fit: contain" class="img-fluid"/>-->
     </div>
 </header>
 <main style="FLEX-GROW: 1 ;margin-top:100px;background-color: #f2f4f7">
@@ -60,7 +60,7 @@
         </div>
     </div>
     <div th:if="${roleName == 'admin'}" class="row align-items-start">
-
+        <div th:replace="~{admin/admin}"></div>
     </div>
 </main>
 <footer>

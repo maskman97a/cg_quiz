@@ -5,6 +5,7 @@ import com.maskman97a.cg_quiz.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ public class AuthController extends BaseController {
 
     @GetMapping("/login")
     public String loginPage(HttpServletRequest httpServletRequest) {
-        return renderPage(httpServletRequest, "auth", "login");
+        return renderPage(httpServletRequest,"auth", "login");
     }
 
 

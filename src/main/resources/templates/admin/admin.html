@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${functionName == 'admin-register-list'}">
+    <th:block th:replace="~{admin/admin_list}"></th:block>
+</div>
+<!--<div th:if="${functionName == 'create'}">-->
+<!--    <th:block th:replace="~{admin/service_create}"></th:block>-->
+<!--</div>-->
+<!--<div th:if="${functionName == 'detail/{id}'}">-->
+<!--    <th:block th:replace="~{admin/service_detail}"></th:block>-->
+<!--</div>-->
+
+</div>
+</body>
+</html>

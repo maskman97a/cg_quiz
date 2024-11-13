@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thêm mới dịch vụ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .form-container input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
+        .form-container .error {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .form-container .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-container .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .form-container .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .form-container .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .form-container .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+
+<div class="form-container">
+    <h2>Thêm Dịch Vụ Mới</h2>
+    <form th:action="@{/service/create}" th:object="${service}" method="post">
+        <label for="name">Tên Dịch Vụ:</label>
+        <input type="text" id="name" class="form-control col-12" placeholder="Nhập Tên của bạn" maxlength="100"/>
+        <!--        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>-->
+
+
+        <label for="price">Giá:</label>
+        <input type="number" id="price" placeholder="Nhập giá"/>
+        <!--        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error"></span>-->
+
+        <label for="estimateHour">Giờ ước tính phục vụ:</label>
+        <input type="number" id="estimateHour" placeholder="Nhập giờ"/>
+        <!--        <span th:if="${#fields.hasErrors('estimateHour')}" th:errors="*{estimateHour}" class="error"></span>-->
+
+        <label for="estimateMinutes">Phút ước tính phục vụ:</label>
+        <input type="number" id="estimateMinutes" placeholder="Nhập phút"/>
+        <!--        <span th:if="${#fields.hasErrors('estimateMinutes')}" th:errors="*{estimateMinutes}" class="error"></span>-->
+
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Hủy</button>
+            <button type="button" class="btn btn-primary" onclick="executeService()" id="btnService">Thêm mới</button>
+        </div>
+    </form>
+</div>
+<script>
+    function executeService() {
+        let createServiceReq = {
+            name: $('#name').val(),
+            price: $('#price').val(),
+            estimateHour: $('#estimateHour').val(),
+            estimateMinutes: $('#estimateMinutes').val()
+        }
+        let dataReq = {
+            data: createServiceReq
+        }
+        $.ajax({
+            url: '/service/create',
+            type: 'POST',
+            data: JSON.stringify(dataReq),
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.errorCode !== 0) {
+                    if (data.errorCode === 98) {
+                        alert(data.description);
+                    } else {
+                        alert('Thêm mới thất bại');
+                    }
+                } else {
+                    window.location.href = "/service";
+                }
+            },
+            error: function () {
+                alert('Thêm mới thất bại');
+            }
+        });
+    }
+</script>
+</html>

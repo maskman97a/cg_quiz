@@ -31,7 +31,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("**").permitAll()
-                                .requestMatchers("/auth/login", "/auth/register", "/home", "/").permitAll()
+                                .requestMatchers("/auth/login", "/auth/register", "/home", "/admin/**").permitAll()
                                 .requestMatchers("/js/**", "/css/**", "/images/**", "favicon.ico").permitAll()
                                 .anyRequest().authenticated() // Tất cả các yêu cầu khác đều cần xác thực
                 )
