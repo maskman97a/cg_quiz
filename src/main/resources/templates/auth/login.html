@@ -10,7 +10,7 @@
     <div th:if="${registerMsg != '' && registerMsg != null}" class="alert alert-success" role="alert">
         <span th:text="${registerMsg}"></span>
     </div>
-    <div th:if="${error == true}" class="alert alert-danger" role="alert">
+    <div th:if="${#strings.toString(param.error)} == 'true'" class="alert alert-danger" role="alert">
         <span>Thông tin đăng nhập không hợp lệ!</span>
     </div>
     <form class="form row m-0" action="/auth/login" method="post" onsubmit="return prepareLogin()">

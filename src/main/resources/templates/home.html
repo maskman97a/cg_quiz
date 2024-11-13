@@ -53,7 +53,11 @@
 </header>
 <main style="FLEX-GROW: 1 ;margin-top:100px;background-color: #f2f4f7">
     <div class="container p-3" style="background-color:white; height:100%">
-
+        <div th:if="${roleName != 'admin'}">
+            <div th:if="${tabName == 'auth'}">
+                <div th:replace="~{auth/auth}"></div>
+            </div>
+        </div>
     </div>
     <div th:if="${roleName == 'admin'}" class="row align-items-start">
 
