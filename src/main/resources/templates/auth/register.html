@@ -9,27 +9,20 @@
     <div th:if="${errorMsg != '' && errorMsg != null}" class="alert alert-danger" role="alert">
         <span th:text="${errorMsg}"></span>
     </div>
-    <div id="divValidateMsg" class="alert alert-danger" role="alert" style="display: none">
-        <span id="validateMsg"></span>
-    </div>
     <form class="form row m-0" action="/auth/register" method="post" onsubmit="return validateRegister()">
         <div class="col-12 text-center">
             <h1>Đăng ký</h1>
         </div>
         <div class="col-12 mb-3">
-            <label class="form-label" for="inputRegFullName">Tên hiển thị</label>
+            <label class="form-label" for="inputRegUserName">Tên đăng nhập <span class="text-danger">*</span></label>
             <div class="input-group">
-                <input class="form-control" id="inputRegFullName" type="text" name="fullName"
-                       th:value="${fullName}"
-                       placeholder="Nhập tên của bạn"/>
-            </div>
-        </div>
-        <div class="col-12 mb-3">
-            <label class="form-label" for="inputRegEmail">Email <span class="text-danger">*</span></label>
-            <div class="input-group">
-                <input class="form-control" id="inputRegEmail" type="text" name="email"
-                       onkeyup="onInputEmail()" th:value="${email}"
-                       placeholder="Nhập email"/>
+                <input class="form-control" id="inputRegUserName" type="text" name="username"
+                       onkeyup="onInputUsername()" th:value="${username}"
+                       placeholder="Tối thiểu 6 ký tự"/>
+                <span id="input-username-group-icon" class="input-group-text">
+                <i class="fa-solid fa-circle-check text-success" id="icon-valid-username"></i>
+                <i class="fa-solid fa-circle-xmark text-danger" id="icon-invalid-username"></i>
+        </span>
             </div>
         </div>
         <div class="col-12 mb-3">
@@ -61,6 +54,7 @@
         <div class="col-12 mb-3">
             <button class="btn btn-primary form-control" type="submit">Đăng ký</button>
             <span>Bạn đã có tài khoản? </span><a href="/auth/login">Đăng nhập</a>
+            <span class="text-danger" id="validateRegisterMsg"></span>
         </div>
     </form>
 </div>
@@ -77,8 +71,8 @@
         $("#icon-invalid-re-password").hide();
     }
 
-    function onInputEmail() {
-        let validateUsernameMsg = validateEmail();
+    function onInputUsername() {
+        let validateUsernameMsg = validateUsername();
         if (isNullOrEmpty(validateUsernameMsg)) {
             $("#icon-valid-username").show();
             $("#icon-invalid-username").hide();
@@ -118,33 +112,23 @@
     function validateRegister() {
         let validateMsg = doValidate();
         if (!isNullOrEmpty(validateMsg)) {
-            $("#divValidateMsg").show();
-            $("#validateMsg").html(validateMsg);
+            $("#validateRegisterMsg").html(validateMsg);
             return false;
         }
         return true;
     }
 
-    function validateFullName() {
-        let fullName = $("#inputRegFullName").val();
-        if (!isNullOrEmpty()) {
-            if (!/^[a-zA-Z]+$/.test(fullName)) {
-                return "Tên hiển thị không hợp lệ";
-            }
+    function validateUsername() {
+        let username = $("#inputRegUserName").val();
+        if (isNullOrEmpty(username)) {
+            return "Tên đăng nhập không được để trống.";
         }
-    }
-
-    function validateEmail() {
-        let email = $("#inputRegEmail").val();
-        if (isNullOrEmpty(email)) {
-            return "Email không được để trống.";
-        }
-        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/.test(email)) {
-            return "Email không hợp lệ";
+        if (!/^[a-zA-Z0-9]+$/.test(username)) {
+            return "Tên đăng nhập chỉ gồm ký tự a-z, A-Z và số.";
         }
 
-        if (email.length < 10) {
-            return "Email tối thiểu 10 ký tự.";
+        if (username.length < 6) {
+            return "Tên đăng nhập tối thiểu 6 ký tự.";
         }
     }
 
@@ -170,13 +154,9 @@
     }
 
     function doValidate() {
-        let validateEmailMsg = validateEmail();
-        if (!isNullOrEmpty(validateEmailMsg)) {
-            return validateEmailMsg;
-        }
-        let validateFullNameMsg = validateFullName();
-        if (!isNullOrEmpty(validateFullNameMsg)) {
-            return validateFullNameMsg;
+        let validateUserNameMsg = validateUsername();
+        if (!isNullOrEmpty(validateUserNameMsg)) {
+            return validateUserNameMsg;
         }
 
         let validatePasswordMsg = validatePassword();
