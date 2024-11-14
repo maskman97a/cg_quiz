@@ -3,6 +3,8 @@ package com.maskman97a.cg_quiz.entity;
 import com.maskman97a.cg_quiz.dto.enums.UserTypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +28,7 @@ public class UserEntity extends BaseEntity {
     private String password;
     @Column(name = "fullName")
     private String fullName;
+    @Enumerated(EnumType.STRING)
     @Column(name = "user_type")
     private UserTypeEnum userType;
 }
