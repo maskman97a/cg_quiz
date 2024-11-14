@@ -1,6 +1,7 @@
 package com.maskman97a.cg_quiz.service;
 
 import com.maskman97a.cg_quiz.dto.enums.RoleTypeEnum;
+import com.maskman97a.cg_quiz.dto.request.RegisterRequest;
 import com.maskman97a.cg_quiz.entity.RoleEntity;
 import com.maskman97a.cg_quiz.entity.UserEntity;
 import com.maskman97a.cg_quiz.entity.UserRoleEntity;
@@ -24,20 +25,21 @@ public class AuthService extends BaseService {
     private final RoleRepository roleRepository;
 
     @Transactional
-    public void register(HttpServletRequest httpServletRequest, String username, String password) throws ValidateException {
-        if (DataUtils.isNullOrEmpty(username)) {
-            throw new ValidateException("Tên đăng nhập không được để trống");
+    public void register(HttpServletRequest httpServletRequest, RegisterRequest registerRequest) throws ValidateException {
+        if (DataUtils.isNullOrEmpty(registerRequest.getEmail())) {
+            throw new ValidateException("Email không được để trống");
         }
-        if (DataUtils.isNullOrEmpty(password)) {
+        if (DataUtils.isNullOrEmpty(registerRequest.getPassword())) {
             throw new ValidateException("Mật khẩu không được để trống");
         }
-        Optional<UserEntity> optionalUserEntity = userRepository.findByUsernameIgnoreCase(username);
+        Optional<UserEntity> optionalUserEntity = userRepository.findByEmailIgnoreCase(registerRequest.getEmail());
         if (optionalUserEntity.isPresent()) {
-            throw new ValidateException("Tên đăng nhập đã tồn tại");
+            throw new ValidateException("Email đã tồn tại");
         }
         UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(username);
-        userEntity.setPassword(password);
+        userEntity.setFullName(registerRequest.getFullName());
+        userEntity.setEmail(registerRequest.getEmail());
+        userEntity.setPassword(registerRequest.getPassword());
         userEntity = userRepository.save(userEntity);
         RoleEntity roleEntity = new RoleEntity();
         Optional<RoleEntity> optionalRoleEntity = roleRepository.findByType(RoleTypeEnum.DEFAULT);

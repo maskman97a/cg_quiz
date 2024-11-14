@@ -1,6 +1,7 @@
 package com.maskman97a.cg_quiz.config;
 
 import com.maskman97a.cg_quiz.dto.RoleDto;
+import com.maskman97a.cg_quiz.dto.UserDetailDto;
 import com.maskman97a.cg_quiz.entity.UserEntity;
 import com.maskman97a.cg_quiz.repository.UserRepository;
 import com.maskman97a.cg_quiz.repository.UserRoleRepository;
@@ -31,16 +32,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        Optional<UserEntity> optionalUserEntity = userRepository.findByUsernameIgnoreCase(username);
+        Optional<UserEntity> optionalUserEntity = userRepository.findByEmailIgnoreCase(username);
         if (optionalUserEntity.isPresent() && optionalUserEntity.get().getPassword().equals(password)) {
             Set<RoleDto> roleDtos = userRoleRepository.getUserRole(optionalUserEntity.get().getId());
             List<GrantedAuthority> authorities = roleDtos.stream()
                     .map(x -> new SimpleGrantedAuthority(x.getType())).collect(Collectors.toList());
-            UserDetails userDetails = User.withUsername(username)
-                    .password(password)
-                    .authorities(authorities)
-                    .build();
-            return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+            UserDetailDto userDetails = new UserDetailDto();
+            userDetails.setAuthorities(authorities);
+            userDetails.setEmail(username);
+            userDetails.setPassword(password);
+            userDetails.setFullName(optionalUserEntity.get().getFullName());
+            return new UsernamePasswordAuthenticationToken(userDetails, password, authorities);
         }
         throw new AuthenticationException("Authentication failed") {
         };

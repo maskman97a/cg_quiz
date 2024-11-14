@@ -1,5 +1,6 @@
 package com.maskman97a.cg_quiz.controller;
 
+import com.maskman97a.cg_quiz.dto.request.RegisterRequest;
 import com.maskman97a.cg_quiz.exception.ValidateException;
 import com.maskman97a.cg_quiz.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,11 +29,19 @@ public class AuthController extends BaseController {
     }
 
     @PostMapping("/register")
-    public String register(HttpServletRequest httpServletRequest, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+    public String register(HttpServletRequest httpServletRequest,
+                           @RequestParam(name = "fullName") String fullName,
+                           @RequestParam(name = "email") String email,
+                           @RequestParam(name = "password") String password) {
         try {
-            authService.register(httpServletRequest, username, password);
+            RegisterRequest registerRequest = new RegisterRequest();
+            registerRequest.setEmail(email);
+            registerRequest.setFullName(fullName);
+            registerRequest.setPassword(password);
+            authService.register(httpServletRequest, registerRequest);
         } catch (ValidateException ex) {
-            httpServletRequest.setAttribute("username", username);
+            httpServletRequest.setAttribute("email", email);
+            httpServletRequest.setAttribute("fullName", fullName);
             httpServletRequest.setAttribute("errorMsg", ex.getMessage());
             return renderPage(httpServletRequest, "auth", "register");
         }
