@@ -1,7 +1,9 @@
 package com.maskman97a.cg_quiz.controller;
 
+import com.maskman97a.cg_quiz.utils.DataUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -27,9 +29,17 @@ public class BaseController {
         return "home";
     }
 
+    public String adminPage() {
+        return "admin/admin";
+    }
+
     public String renderPage(HttpServletRequest httpServletRequest, Model model, String tabName, String functionName) {
-        authentication(model);
-        return renderPage(httpServletRequest, tabName, functionName);
+        if (!DataUtils.isNullObject(model.getAttribute("role"))
+                && model.getAttribute("role") == "ADMIN") {
+            return renderPage(httpServletRequest, tabName, functionName, "admin");
+        } else {
+            return renderPage(httpServletRequest, "home", null);
+        }
     }
 
     public String renderPage(HttpServletRequest httpServletRequest, Model model, String tabName, String functionName, String roleName) {
@@ -47,7 +57,12 @@ public class BaseController {
         httpServletRequest.setAttribute("tabName", tabName);
         httpServletRequest.setAttribute("functionName", functionName);
         httpServletRequest.setAttribute("roleName", roleName);
-        return homePage();
+        if (!DataUtils.isNullObject(roleName)
+                && DataUtils.safeEqual("admin", roleName)) {
+            return adminPage();
+        } else {
+            return homePage();
+        }
     }
 
     protected void authentication(Model model) {
@@ -60,7 +75,12 @@ public class BaseController {
 
             if (principal instanceof UserDetails userDetails) {
                 String username = userDetails.getUsername();
+                String roleName = "";
                 model.addAttribute("fullName", username);
+                for (GrantedAuthority authority : userDetails.getAuthorities()) {
+                    roleName = authority.getAuthority();
+                }
+                model.addAttribute("role", roleName);
             } else {
                 model.addAttribute("fullName", null);
             }

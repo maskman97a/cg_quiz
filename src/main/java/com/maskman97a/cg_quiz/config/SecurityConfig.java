@@ -31,14 +31,14 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
 //                        .requestMatchers("**").permitAll()
-                                .requestMatchers("/auth/login", "/auth/register", "/home", "/").permitAll()
+                                .requestMatchers("/auth/login", "/auth/register", "/home", "/admin/**").permitAll()
                                 .requestMatchers("/js/**", "/css/**", "/images/**", "favicon.ico").permitAll()
                                 .anyRequest().authenticated() // Tất cả các yêu cầu khác đều cần xác thực
                 )
                 .formLogin(form -> form
                         .loginPage(Const.LOGIN_ENDPOINT)  // Định nghĩa trang login
                         .loginProcessingUrl(Const.LOGIN_ENDPOINT)
-                        .defaultSuccessUrl("/admin", true)  // Sau khi đăng nhập thành công, điều hướng tới trang home
+                        .defaultSuccessUrl("/home", true)  // Sau khi đăng nhập thành công, điều hướng tới trang home
                         .failureUrl("/auth/login?error=true")  // Trang login khi có loi xác thực
                         .permitAll()
                 )
