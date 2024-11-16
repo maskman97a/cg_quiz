@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
@@ -14,6 +16,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -35,13 +38,24 @@ public class BaseEntity {
     @Column(name = "updated_by")
     protected String updatedBy;
     @Column(name = "is_deleted", nullable = false, columnDefinition = "tinyint(1)")
-    protected Integer isDeleted;
+    protected DeleteEnum isDeleted;
 
     public BaseEntity() {
         this.createdAt = LocalDateTime.now();
-        this.createdBy = "system";
+        this.updatedAt = LocalDateTime.now();
+        this.isDeleted = DeleteEnum.NO;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        isDeleted = DeleteEnum.NO;
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
         this.updatedBy = "system";
-        this.isDeleted = DeleteEnum.NO.getValue();
     }
 }

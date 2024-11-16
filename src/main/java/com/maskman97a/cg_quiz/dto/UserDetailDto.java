@@ -17,11 +17,13 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class UserDetailDto implements UserDetails {
+    private Long id;
     private String fullName;
     private String email;
     private String password;
     private List<GrantedAuthority> authorities;
     private Set<String> roles;
+    private byte[] avatar;
 
     public UserDetailDto(String fullName, String password, List<GrantedAuthority> authorities) {
         this.fullName = fullName;

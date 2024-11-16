@@ -38,10 +38,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             List<GrantedAuthority> authorities = roleDtos.stream()
                     .map(x -> new SimpleGrantedAuthority(x.getType())).collect(Collectors.toList());
             UserDetailDto userDetails = new UserDetailDto();
+            userDetails.setId(optionalUserEntity.get().getId());
             userDetails.setAuthorities(authorities);
             userDetails.setEmail(username);
-            userDetails.setPassword(password);
             userDetails.setFullName(optionalUserEntity.get().getFullName());
+            userDetails.setAvatar(optionalUserEntity.get().getAvatar());
             return new UsernamePasswordAuthenticationToken(userDetails, password, authorities);
         }
         throw new AuthenticationException("Authentication failed") {

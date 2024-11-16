@@ -64,6 +64,7 @@ public class BaseController {
 
             if (principal instanceof UserDetailDto userDetails) {
                 model.addAttribute("fullName", !DataUtils.isNullOrEmpty(userDetails.getFullName()) ? userDetails.getFullName() : userDetails.getEmail());
+                model.addAttribute("userInfo", userDetails);
                 return userDetails;
             } else {
                 model.addAttribute("fullName", null);
