@@ -37,27 +37,43 @@
             <div class="col-4 pb-3 pt-3 align-self-end" th:if="${fullName == null && tabName != 'auth'}">
                 <a href="/auth/login" class="btn btn-primary">Đăng nhập</a>
             </div>
-            <div th:if="${fullName != null && fullName != ''}" class="col-3 pb-3 pt-3 align-self-end">
-                <div class="border">
+            <div th:if="${fullName != null && fullName != ''}" class="col-12 pb-3 pt-3 align-self-end row m-0">
+                <div class="border col-4">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4So53hM-fKiSCd6zwsuTRWwB5-o0xA9aJIw&s"
                          alt="Avatar" width="50px" class="ratio-1x1" sizes="z-index: 0"/>
                     <span th:text="${fullName}"></span>
                 </div>
-                <a href="/auth/logout">Đăng xuất</a>
+                <div class="col-4">
+                    <div class="col-12">
+                        <a href="/user/view">Thông tin cá nhân</a>
+                    </div>
+                    <div class="col-12">
+                        <a href="/auth/logout" class="text-danger">Đăng xuất</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div style="height: 200px">
-<!--        <img th:src="@{/images/barber-banner.webp}" alt="Logo" width="100%" style="object-fit: contain" class="img-fluid"/>-->
+        <!--        <img th:src="@{/images/barber-banner.webp}" alt="Logo" width="100%" style="object-fit: contain" class="img-fluid"/>-->
     </div>
 </header>
 <main style="FLEX-GROW: 1 ;margin-top:100px;background-color: #f2f4f7">
     <div class="container p-3" style="background-color:white; height:100%">
+        <div th:if="${roleName != 'admin'}">
+            <div th:if="${tabName == 'auth'}">
+                <div th:replace="~{auth/auth}"></div>
+            </div>
+        </div>
+        <div th:if="${roleName == 'admin'}" class="row align-items-start">
 
-    </div>
-    <div th:if="${roleName == 'admin'}" class="row align-items-start">
+        </div>
+        <div th:if="${fullName != null && fullName != ''}">
+            <div th:include="~{user/user}"></div>
 
+        </div>
     </div>
+
 </main>
 <footer>
 
