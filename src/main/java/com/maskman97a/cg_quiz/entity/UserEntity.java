@@ -31,4 +31,6 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type")
     private UserTypeEnum userType;
+    @Column(name = "avatar")
+    private byte[] avatar;
 }

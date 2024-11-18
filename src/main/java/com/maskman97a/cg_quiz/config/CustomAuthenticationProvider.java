@@ -2,7 +2,6 @@ package com.maskman97a.cg_quiz.config;
 
 import com.maskman97a.cg_quiz.dto.RoleDto;
 import com.maskman97a.cg_quiz.dto.UserDetailDto;
-import com.maskman97a.cg_quiz.dto.enums.UserTypeEnum;
 import com.maskman97a.cg_quiz.entity.UserEntity;
 import com.maskman97a.cg_quiz.repository.UserRepository;
 import com.maskman97a.cg_quiz.repository.UserRoleRepository;
@@ -34,29 +33,20 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
         Optional<UserEntity> optionalUserEntity = userRepository.findByEmailIgnoreCase(username);
-        // Kiểm tra thông tin đăng nhập
         if (optionalUserEntity.isPresent() && optionalUserEntity.get().getPassword().equals(password)) {
-            UserEntity userEntity = optionalUserEntity.get();
-
-            // Lấy loại tài khoản từ UserEntity
-            UserTypeEnum userType = userEntity.getUserType();
-
-            // Tạo quyền (GrantedAuthority) từ userType
-            GrantedAuthority authority = new SimpleGrantedAuthority(userType.name());
-
-            // Tạo đối tượng UserDetailDto
+            Set<RoleDto> roleDtos = userRoleRepository.getUserRole(optionalUserEntity.get().getId());
+            List<GrantedAuthority> authorities = roleDtos.stream()
+                    .map(x -> new SimpleGrantedAuthority(x.getType())).collect(Collectors.toList());
             UserDetailDto userDetails = new UserDetailDto();
+            userDetails.setId(optionalUserEntity.get().getId());
+            userDetails.setAuthorities(authorities);
             userDetails.setEmail(username);
-            userDetails.setPassword(password);
-            userDetails.setFullName(userEntity.getFullName());
-            userDetails.setAuthorities(List.of(authority));
-
-            // Trả về đối tượng Authentication
-            return new UsernamePasswordAuthenticationToken(userDetails, password, List.of(authority));
+            userDetails.setFullName(optionalUserEntity.get().getFullName());
+            userDetails.setAvatar(optionalUserEntity.get().getAvatar());
+            return new UsernamePasswordAuthenticationToken(userDetails, password, authorities);
         }
-
-        // Nếu thất bại, ném ngoại lệ
-        throw new AuthenticationException("Authentication failed") {};
+        throw new AuthenticationException("Authentication failed") {
+        };
     }
 
     @Override
