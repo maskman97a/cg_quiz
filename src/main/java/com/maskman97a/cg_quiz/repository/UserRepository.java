@@ -11,6 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    boolean existsByEmailIgnoreCase(String email);
+
     Optional<UserEntity> findByEmailIgnoreCase(String username);
 
     List<UserEntity> findByUserTypeOrderByCreatedAtDesc(Pageable pageable, UserTypeEnum userTypeEnum);

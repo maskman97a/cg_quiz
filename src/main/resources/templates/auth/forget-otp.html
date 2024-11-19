@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <div th:if="${#strings.toString(param.error)} == 'true'" class="alert alert-danger" role="alert">
+        <span>Thông tin đăng nhập không hợp lệ!</span>
+    </div>
+    <div id="divValidateMsg" class="alert alert-danger" role="alert" style="display: none">
+        <span id="validateMsg"></span>
+    </div>
+    <form class="form row m-0" action="/auth/forget-otp" method="post"
+          onsubmit="return prepareForgetOtp()">
+        <div class="col-12 text-center">
+            <h1>Xác nhận OTP</h1>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label" for="inputOtp">OTP</label>
+            <input class="form-control" id="inputOtp" type="text" name="otp" placeholder="Nhập otp"/>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label" for="inputNewPassword">Mật khẩu mới <span
+                    class="text-danger">*</span></label>
+            <div class="input-group">
+                <input class="form-control " id="inputNewPassword"
+                       data-input-name="Mật khẩu mới" type="password"
+                       placeholder="Tối thiểu 6 ký tự"
+                       onkeyup="onInputPassword('new', '#inputNewPassword')"/>
+                <span id="input-new-password-group-icon"
+                      class="input-group-text icon-validate-password">
+                                            <i class="fa-solid fa-circle-check text-success icon-validate-password"
+                                               id="icon-valid-new-password"></i>
+                                            <i class="fa-solid fa-circle-xmark text-danger icon-validate-password"
+                                               id="icon-invalid-new-password"></i>
+                                        </span>
+            </div>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label" for="inputReNewPassword">Nhập lại Mật khẩu mới <span
+                    class="text-danger">*</span></label>
+            <div class="input-group">
+                <input class="form-control" id="inputReNewPassword"
+                       data-input-name="Nhập lại mật khẩu mới" type="password"
+                       onkeyup="onInputPassword('renew', '#inputReNewPassword')"
+                       placeholder="Nhập lại mật khẩu"/>
+                <span id="input-renew-password-group-icon"
+                      class="input-group-text icon-validate-password">
+                                            <i class="fa-solid fa-circle-check text-success icon-validate-password"
+                                               id="icon-valid-renew-password"></i>
+                                            <i class="fa-solid fa-circle-xmark text-danger icon-validate-password"
+                                               id="icon-invalid-renew-password"></i>
+                                        </span>
+            </div>
+        </div>
+        <input id="passwordNewToSend" type="password"
+               name="newPassword" hidden/>
+        <input type="text" th:value="${otpKey}" name="otpKey" hidden>
+        <input id="passwordToSend" type="password"
+               name="newPassword" hidden/>
+        <div class="col-12 mb-3">
+            <button class="btn btn-primary form-control" type="submit">Đổi mật khẩu</button>
+        </div>
+    </form>
+</div>
+<script>
+
+    function prepareForgetOtp() {
+        let validateMsg = validateForgetOtp();
+        if (!isNullOrEmpty(validateMsg)) {
+            $("#divValidateMsg").show();
+            $("#validateMsg").html(validateMsg);
+            return false;
+        }
+        return true;
+    }
+
+    function validateForgetOtp() {
+        let pwdNew = $("#inputNewPassword").val();
+        let pwdNewToSend = $("#passwordNewToSend");
+        pwdNewToSend.val(sha1(pwdNew));
+        return "";
+    }
+</script>
+</body>
+</html>
