@@ -1,6 +1,7 @@
 package com.maskman97a.cg_quiz.dto;
 
 import com.maskman97a.cg_quiz.dto.enums.RoleTypeEnum;
+import com.maskman97a.cg_quiz.dto.enums.UserTypeEnum;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class UserDetailDto implements UserDetails {
     private String email;
     private String password;
     private List<GrantedAuthority> authorities;
-    private Set<String> roles;
+    private String role;
     private byte[] avatar;
 
     public UserDetailDto(String fullName, String password, List<GrantedAuthority> authorities) {
@@ -42,11 +43,7 @@ public class UserDetailDto implements UserDetails {
     }
 
     public boolean hasRole(String role) {
-        if (this.roles.contains(role)) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.role.equals(role);
     }
 
 
