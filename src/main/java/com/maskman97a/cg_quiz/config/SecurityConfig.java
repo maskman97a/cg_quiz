@@ -37,13 +37,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        // Phân quyền theo UserTypeEnum
-                        .requestMatchers("/admin/**").hasAuthority(UserTypeEnum.ADMIN.name())
-                        .requestMatchers("/teacher/**").hasAuthority(UserTypeEnum.TEACHER.name())
-                        .requestMatchers("/student/**").hasAuthority(UserTypeEnum.STUDENT.name())
-                        // Các URL không cần xác thực
-                        .requestMatchers("/auth/login", "/auth/register", "/home", "/").permitAll()
-                        .anyRequest().authenticated() // Các yêu cầu còn lại cần xác thực
+//                        .requestMatchers("**").permitAll()
+                                .requestMatchers("/auth/login", "/auth/register", "/auth/forget", "/home", "/").permitAll()
+                                .requestMatchers("/js/**", "/css/**", "/images/**", "favicon.ico").permitAll()
+                                .requestMatchers("/admin/**").hasAuthority(UserTypeEnum.ADMIN.name())
+                                .requestMatchers("/teacher/**").hasAuthority(UserTypeEnum.TEACHER.name())
+                                .requestMatchers("/student/**").hasAuthority(UserTypeEnum.STUDENT.name())
+                                .anyRequest().authenticated() // Tất cả các yêu cầu khác đều cần xác thực
                 )
                 .formLogin(form -> form
                         .loginPage("/auth/login")  // Đường dẫn đến trang đăng nhập

@@ -28,25 +28,29 @@
         <div class="col-12 mb-3">
             <label class="form-label" for="inputPassword">Mật khẩu <span class="text-danger">*</span></label>
             <div class="input-group">
-                <input class="form-control " id="inputPassword" type="password" placeholder="Tối thiểu 6 ký tự"
-                       onkeyup="onInputPassword()"/>
-                <span id="input-password-group-icon" class="input-group-text">
-                <i class="fa-solid fa-circle-check text-success" id="icon-valid-password"></i>
-                <i class="fa-solid fa-circle-xmark text-danger" id="icon-invalid-password"></i>
-        </span>
+                <input class="form-control " id="inputPassword" type="password" data-input-name="Mật khẩu"
+                       placeholder="Tối thiểu 6 ký tự"
+                       onkeyup="onInputPassword('first', '#inputPassword')"/>
+                <span id="input-first-password-group-icon" class="input-group-text icon-validate-password">
+                    <i class="fa-solid fa-circle-check text-success icon-validate-password"
+                       id="icon-valid-first-password"></i>
+                    <i class="fa-solid fa-circle-xmark text-danger icon-validate-password"
+                       id="icon-invalid-first-password"></i>
+                </span>
             </div>
-
-
         </div>
         <div class="col-12 mb-3">
             <label class="form-label" for="inputRePassword">Nhập lại Mật khẩu <span class="text-danger">*</span></label>
             <div class="input-group">
-                <input class="form-control" id="inputRePassword" type="password" onkeyup="onInputRePassword()"
+                <input class="form-control" id="inputRePassword" data-input-name="Nhập lại mật khẩu" type="password"
+                       onkeyup="onInputPassword('re-first','#inputRePassword')"
                        placeholder="Nhập lại mật khẩu"/>
-                <span id="input-re-password-group-icon" class="input-group-text">
-                <i class="fa-solid fa-circle-check text-success" id="icon-valid-re-password"></i>
-                <i class="fa-solid fa-circle-xmark text-danger" id="icon-invalid-re-password"></i>
-        </span>
+                <span id="input-re-first-password-group-icon" class="input-group-text icon-validate-password">
+                    <i class="fa-solid fa-circle-check text-success icon-validate-password"
+                       id="icon-valid-re-first-password"></i>
+                    <i class="fa-solid fa-circle-xmark text-danger icon-validate-password"
+                       id="icon-invalid-re-first-password"></i>
+                </span>
             </div>
         </div>
         <input id="passwordToSend" type="password"
@@ -82,35 +86,8 @@
         }
     }
 
-    function onInputPassword() {
-        let validatePasswordMsg = validatePassword();
-        if (isNullOrEmpty(validatePasswordMsg)) {
-            $("#icon-valid-password").show();
-            $("#icon-invalid-password").hide();
-        } else {
-            $("#icon-valid-password").hide();
-            $("#icon-invalid-password").show();
-        }
-        if (!isNullOrEmpty($("#inputRePassword").val())) {
-            onInputRePassword();
-        }
-
-
-    }
-
-    function onInputRePassword() {
-        let validateRepasswordMsg = validateRePassword();
-        if (isNullOrEmpty(validateRepasswordMsg)) {
-            $("#icon-valid-re-password").show();
-            $("#icon-invalid-re-password").hide();
-        } else {
-            $("#icon-valid-re-password").hide();
-            $("#icon-invalid-re-password").show();
-        }
-    }
-
     function validateRegister() {
-        let validateMsg = doValidate();
+        let validateMsg = doValidateRegister();
         if (!isNullOrEmpty(validateMsg)) {
             $("#validateRegisterMsg").html(validateMsg);
             return false;
@@ -132,38 +109,21 @@
         }
     }
 
-    function validatePassword() {
-        let pwd = $("#inputPassword").val();
-        if (isNullOrEmpty(pwd)) {
-            return "Mật khẩu không được để trống.";
+    function doValidateRegister() {
+        let validateEmailMsg = validateEmail();
+        if (!isNullOrEmpty(validateEmailMsg)) {
+            return validateEmailMsg;
         }
-        if (pwd.length < 6) {
-            return "Mật khẩu tối thiểu 6 ký tự.";
-        }
-    }
-
-    function validateRePassword() {
-        let pwd = $("#inputPassword").val();
-        let rePwd = $("#inputRePassword").val();
-        if (isNullOrEmpty(rePwd)) {
-            return "Mật khẩu nhập lại không được để trống.";
-        }
-        if (pwd !== rePwd) {
-            return "Mật khẩu nhập lại không trùng khớp.";
-        }
-    }
-
-    function doValidate() {
-        let validateUserNameMsg = validateUsername();
-        if (!isNullOrEmpty(validateUserNameMsg)) {
-            return validateUserNameMsg;
+        let validateFullNameMsg = validateFullName();
+        if (!isNullOrEmpty(validateFullNameMsg)) {
+            return validateFullNameMsg;
         }
 
-        let validatePasswordMsg = validatePassword();
+        let validatePasswordMsg = validatePassword('first', $('#inputPassword'));
         if (!isNullOrEmpty(validatePasswordMsg)) {
             return validatePasswordMsg;
         }
-        let validateRePasswordMsg = validateRePassword();
+        let validateRePasswordMsg = validatePassword('re-first', $('#inputRePassword'));
         if (!isNullOrEmpty(validateRePasswordMsg)) {
             return validateRePasswordMsg;
         }

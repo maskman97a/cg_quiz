@@ -1,6 +1,7 @@
 package com.maskman97a.cg_quiz.service;
 
 import com.maskman97a.cg_quiz.entity.UserEntity;
+import com.maskman97a.cg_quiz.exception.ValidateException;
 import com.maskman97a.cg_quiz.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -32,4 +33,20 @@ public class UserService extends BaseService {
             userRepository.save(userEntity);
         }
     }
+
+    public void changePassword(String currentPassword, String newPassword) throws ValidateException {
+        UserEntity userEntity = getCurrentUser();
+        if (userEntity != null) {
+            if (!userEntity.getPassword().equals(currentPassword)) {
+                throw new ValidateException("Mật khẩu hiện tại không đúng");
+            }
+            if (currentPassword.equals(newPassword)) {
+                throw new ValidateException("Mật khẩu mới trùng mật khẩu hiện tại");
+            }
+            userEntity.setPassword(newPassword);
+            userRepository.save(userEntity);
+        }
+    }
+
+
 }
