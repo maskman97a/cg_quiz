@@ -9,18 +9,19 @@ import com.maskman97a.cg_quiz.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 @Controller
-@RequestMapping("/student")
+@RequestMapping("/students")
 public class StudentController extends BaseController{
     @Autowired
     private AdminService adminService;
     private IStudentRepository studentRepository;
-
+@PreAuthorize(value = "adminService")
     public void getAllStudentAccount(Model model){
         UserDetailDto userDetailDto = authentication(model);
         if (userDetailDto != null & userDetailDto.hasRole("ADMIN")){
@@ -29,7 +30,7 @@ public class StudentController extends BaseController{
 
 
     }
-    @GetMapping("/student")
+    @GetMapping("/")
     public String getStudents(
             Model model,
             @RequestParam(defaultValue = "0") int page,
@@ -48,7 +49,6 @@ public class StudentController extends BaseController{
         model.addAttribute("totalPages", studentPage.getTotalPages());
         model.addAttribute("totalItems", studentPage.getTotalElements());
         model.addAttribute("keyword", keyword);
-
         return "listStudent";
     }
 }
