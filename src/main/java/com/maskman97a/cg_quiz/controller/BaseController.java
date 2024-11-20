@@ -1,6 +1,7 @@
 package com.maskman97a.cg_quiz.controller;
 
 import com.maskman97a.cg_quiz.dto.UserDetailDto;
+import com.maskman97a.cg_quiz.exception.PermissionException;
 import com.maskman97a.cg_quiz.utils.DataUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
@@ -71,5 +72,13 @@ public class BaseController {
             }
         }
         return null;
+    }
+
+    protected UserDetailDto authentication(Model model, String role) throws PermissionException {
+        UserDetailDto userDetailDto = authentication(model);
+        if (!userDetailDto.hasRole(role)) {
+            throw new PermissionException();
+        }
+        return userDetailDto;
     }
 }

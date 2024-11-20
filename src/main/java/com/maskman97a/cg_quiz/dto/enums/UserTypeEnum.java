@@ -8,9 +8,9 @@ public enum UserTypeEnum {
     STUDENT("Học Sinh"),
     TEACHER("Giáo Viên");
 
-    private final String name;
+    private final String mean;
 
-    UserTypeEnum(String name) {
-        this.name = name;
+    UserTypeEnum(String mean) {
+        this.mean = mean;
     }
 }
