@@ -16,7 +16,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByUsernameIgnoreCase(String username);
 
     List<UserEntity> findByUserTypeOrderByCreatedAtDesc (Pageable pageable, UserTypeEnum userTypeEnum);
-    Page<UserEntity> findAll(Pageable pageable);
-
-    Page<UserEntity> findByNameContaining(String name, Pageable pageable);
 }

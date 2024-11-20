@@ -11,13 +11,13 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Getter
 @Setter
 @Table(name = "users")
-@AllArgsConstructor
 @NoArgsConstructor
 @SQLRestriction("is_deleted = 0")
 @SQLDelete(sql = "UPDATE users SET is_deleted = 1 WHERE id = ?")
@@ -30,10 +30,4 @@ public class UserEntity extends BaseEntity {
     private String fullName;
     @Column(name = "user_type")
     private UserTypeEnum userType;
-    @Column(nullable = false, name = "email")
-    private String email;
-    @Column(nullable = false, name = "name")
-    private String name;
-    @Column(nullable = false, name = "createdAt")
-    private LocalDate createdAt;
 }
