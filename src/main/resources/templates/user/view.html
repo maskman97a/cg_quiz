@@ -6,8 +6,15 @@
 </head>
 <body>
 <div class="container">
-    <div th:if="${updateUserMsg != '' && updateUserMsg != null}" class="alert alert-success" role="alert">
-        <span th:text="${updateUserMsg}"></span>
+    <div th:if="${updateUserSuccessMsg != '' && updateUserSuccessMsg != null}" class="alert alert-success" role="alert">
+        <span th:text="${updateUserSuccessMsg}"></span>
+    </div>
+    <div th:if="${changePasswordSuccessMsg != '' && changePasswordSuccessMsg != null}" class="alert alert-success" role="alert">
+        <span th:text="${changePasswordSuccessMsg}"></span>
+    </div>
+    <div th:if="${changePasswordErrorMsg != '' && changePasswordErrorMsg != null}" class="alert alert-danger"
+         role="alert">
+        <span th:text="${changePasswordErrorMsg}"></span>
     </div>
     <h1>Thông tin người dùng</h1>
     <form class="form row m-0" action="/user/update" method="POST" enctype="multipart/form-data">
@@ -21,22 +28,153 @@
         </div>
         <div class="col-8">
 
-            <div class="col-12">
+            <div class="col-12 pb-3">
                 <label for="name">Tên hiển thị</label>
                 <input type="text" class="form-control" id="name" name="fullName" th:value="${userInfo.fullName}"
                        placeholder="Nhập họ và tên">
             </div>
-            <div class="col-12">
+            <div class="col-12 pb-3">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="text" th:value="${userInfo.email}"
+                <input id="email" type="email" class="form-control" th:value="${userInfo.email}"
                        readonly>
             </div>
-            <div class="col-12">
+            <div class="col-12 pb-3">
+                <label for="password">Mật khẩu</label>
+                <input id="password" type="password" class="form-control" value="********"
+                       readonly>
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#modalChangePassword">
+                    Đổi mật khẩu
+                </button>
+
+            </div>
+            <div class="col-12 pb-3">
                 <input type="submit" class="form-control btn-primary" value="Cập nhật"/>
             </div>
         </div>
     </form>
 
+    <!-- Modal -->
+    <form action="/user/change-password" method="POST"
+          onsubmit="return validateChangePassword()">
+        <div class="modal fade" id="modalChangePassword" tabindex="-1" aria-labelledby="modalChangePassword"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Đổi mật khẩu</h1>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="divValidateMsg" class="alert alert-danger" role="alert" style="display: none">
+                            <span id="validateMsg"></span>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label class="form-label" for="inputCurrentPassword">Mật khẩu hiện tại <span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input class="form-control " data-input-name="Mật khẩu hiện tại"
+                                       id="inputCurrentPassword"
+                                       type="password"
+                                       placeholder="Tối thiểu 6 ký tự"
+                                       onkeyup="onInputPassword('current','#inputCurrentPassword')"/>
+                                <span id="input-current-password-group-icon"
+                                      class="input-group-text icon-validate-password">
+                                            <i class="fa-solid fa-circle-check text-success icon-validate-password"
+                                               id="icon-valid-current-password"></i>
+                                            <i class="fa-solid fa-circle-xmark text-danger icon-validate-password"
+                                               id="icon-invalid-current-password"></i>
+                                        </span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label" for="inputNewPassword">Mật khẩu mới <span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input class="form-control " id="inputNewPassword"
+                                       data-input-name="Mật khẩu mới" type="password"
+                                       placeholder="Tối thiểu 6 ký tự"
+                                       onkeyup="onInputPassword('new', '#inputNewPassword')"/>
+                                <span id="input-new-password-group-icon"
+                                      class="input-group-text icon-validate-password">
+                                            <i class="fa-solid fa-circle-check text-success icon-validate-password"
+                                               id="icon-valid-new-password"></i>
+                                            <i class="fa-solid fa-circle-xmark text-danger icon-validate-password"
+                                               id="icon-invalid-new-password"></i>
+                                        </span>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label class="form-label" for="inputReNewPassword">Nhập lại Mật khẩu mới <span
+                                    class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input class="form-control" id="inputReNewPassword"
+                                       data-input-name="Nhập lại mật khẩu mới" type="password"
+                                       onkeyup="onInputPassword('renew', '#inputReNewPassword')"
+                                       placeholder="Nhập lại mật khẩu"/>
+                                <span id="input-renew-password-group-icon"
+                                      class="input-group-text icon-validate-password">
+                                            <i class="fa-solid fa-circle-check text-success icon-validate-password"
+                                               id="icon-valid-renew-password"></i>
+                                            <i class="fa-solid fa-circle-xmark text-danger icon-validate-password"
+                                               id="icon-invalid-renew-password"></i>
+                                        </span>
+                            </div>
+                        </div>
+                        <input id="passwordNewToSend" type="password"
+                               name="newPassword" hidden/>
+                        <input id="passwordCurrentToSend" type="password"
+                               name="currentPassword" hidden/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+
+<script>
+    let inputCurrentPasswordId = '#inputCurrentPassword';
+    let inputNewPasswordId = '#inputNewPassword';
+    let inputReNewPasswordId = '#inputReNewPassword';
+
+    function validateChangePassword() {
+        let validateMsg = doValidateChangePassword();
+        if (!isNullOrEmpty(validateMsg)) {
+            $("#divValidateMsg").show();
+            $("#validateMsg").html(validateMsg);
+            return false;
+        }
+        return true;
+
+    }
+
+    function doValidateChangePassword() {
+        let validateCurrentPasswordMsg = validatePassword('current', $(inputCurrentPasswordId));
+        if (!isNullOrEmpty(validateCurrentPasswordMsg)) {
+            return validateCurrentPasswordMsg;
+        }
+        let validateNewPasswordMsg = validatePassword('renew', $(inputNewPasswordId));
+        if (!isNullOrEmpty(validateNewPasswordMsg)) {
+            return validateNewPasswordMsg;
+        }
+        let validateRePasswordMsg = validatePassword('re-new', $(inputReNewPasswordId));
+        if (!isNullOrEmpty(validateRePasswordMsg)) {
+            return validateRePasswordMsg;
+        }
+
+        let pwdNew = $("#inputNewPassword").val();
+        let pwdNewToSend = $("#passwordNewToSend");
+        pwdNewToSend.val(sha1(pwdNew));
+
+        let pwdCurrent = $("#inputCurrentPassword").val();
+        let pwdCurrentToSend = $("#passwordCurrentToSend");
+        pwdCurrentToSend.val(sha1(pwdCurrent));
+    }
+</script>
 </body>
 </html>

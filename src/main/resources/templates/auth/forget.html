@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <div th:if="${forgetPasswordErrorMsg != '' && forgetPasswordErrorMsg != null}" class="alert alert-danger"
+         role="alert">
+        <span th:text="${forgetPasswordErrorMsg}"></span>
+    </div>
+    <div id="forget-password-alert" style="display: none" class="alert alert-danger"
+         role="alert">
+        <span id="forget-password-message-validate"></span>
+    </div>
+    <form class="form row m-0" action="/auth/forget" method="post" onsubmit="return preForgetPassword()">
+        <div class="col-12 text-center">
+            <h1>Quên mật khẩu</h1>
+        </div>
+        <div class="col-12 mb-3">
+            <label class="form-label" for="inputEmail">Email</label>
+            <input class="form-control" id="inputEmail" type="text" name="username" placeholder="Nhập email"/>
+        </div>
+        <div class="col-12 mb-3">
+            <button class="btn btn-primary form-control" type="submit">Gửi OTP</button>
+        </div>
+    </form>
+</div>
+<script>
+    function preForgetPassword() {
+        let validaMsg = validateEmail();
+        if (!isNullOrEmpty(validaMsg)) {
+            $("#forget-password-alert").show()
+            $("forget-password-message-validate").val(validaMsg);
+        }
+
+        return true;
+    }
+
+    function validateEmail() {
+        let email = $("#inputEmail").val();
+
+        if (isNullOrEmpty(email)) {
+            return "Email không được để trống.";
+        }
+        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+.[a-zA-Z0-9]+$/.test(email)) {
+            return "Email không hợp lệ";
+        }
+
+        if (email.length < 10) {
+            return "Email tối thiểu 10 ký tự.";
+        }
+    }
+</script>
+</body>
+</html>

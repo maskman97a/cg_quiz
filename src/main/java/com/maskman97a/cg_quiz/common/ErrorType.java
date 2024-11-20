@@ -9,7 +9,8 @@ public enum ErrorType {
     SUCCESS(0, "Success", "Thành công"),
     FAIL(1, "Fail", "Thất bại"),
     INVALID_REQUEST(98, "Invalid Request", "Dữ liệu không hợp lệ"),
-    SYSTEM_ERROR(99, "System Error", "Lỗi hệ thống");
+    SYSTEM_ERROR(99, "System Error", "Lỗi hệ thống"),
+    UNAUTHORIZED(403, "Unauthorized", "Không có quyền truy cập");
     final int errorCode;
     final String errorMessage;
     final String description;
