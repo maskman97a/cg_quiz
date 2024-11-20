@@ -1,5 +1,6 @@
 package com.maskman97a.cg_quiz.entity;
 
+import com.maskman97a.cg_quiz.dto.enums.UserTypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -9,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -25,4 +28,12 @@ public class UserEntity extends BaseEntity {
     private String password;
     @Column(name = "fullName")
     private String fullName;
+    @Column(name = "user_type")
+    private UserTypeEnum userType;
+    @Column(nullable = false, name = "email")
+    private String email;
+    @Column(nullable = false, name = "name")
+    private String name;
+    @Column(nullable = false, name = "createdAt")
+    private LocalDate createdAt;
 }
