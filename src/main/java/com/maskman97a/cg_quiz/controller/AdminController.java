@@ -1,42 +1,23 @@
 package com.maskman97a.cg_quiz.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maskman97a.cg_quiz.dto.UserDetailDto;
 import com.maskman97a.cg_quiz.service.AdminService;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
-@RequiredArgsConstructor
 public class AdminController extends BaseController {
-    private final AdminService adminService;
-    private final ObjectMapper jacksonObjectMapper;
-    private final static String TAB_NAME = "admin";
-    private final static String ROLE_NAME = "admin";
+    @Autowired
+    private AdminService adminService;
 
-    @GetMapping
-    public String adminPage(HttpServletRequest httpServletRequest, Model model) {
-//        model.addAttribute("services", serviceService.getAllServices());
-        return renderPage(httpServletRequest, TAB_NAME, "admin-register-list", ROLE_NAME);
+    public void getAllStudentAccount(Model model) {
+        UserDetailDto userDetailDto = authentication(model);
+        if (userDetailDto != null && userDetailDto.hasRole("ADMIN")) {
+            adminService.getListStudentAccount();
+        }
+//        throw Exception("403 - Khong co quyen truy cap")
     }
-
-
-    @GetMapping("/admin-register-list")
-    public String serviceList(HttpServletRequest httpServletRequest, Model model) {
-        return renderPage(httpServletRequest, TAB_NAME, "admin-register-list", ROLE_NAME);
-    }
-
-    @GetMapping("/create")
-    public String serviceCreate(HttpServletRequest httpServletRequest, Model model) {
-        model.addAttribute("service", ""); // Tạo đối tượng rỗng cho form
-        return renderPage(httpServletRequest, TAB_NAME, "create", ROLE_NAME);
-    }
-
-
 }

@@ -23,6 +23,8 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body style="height: 100%;
     min-height: 100vh;
@@ -37,13 +39,22 @@
             <div class="col-4 pb-3 pt-3 align-self-end" th:if="${fullName == null && tabName != 'auth'}">
                 <a href="/auth/login" class="btn btn-primary">Đăng nhập</a>
             </div>
-            <div th:if="${fullName != null && fullName != ''}" class="col-3 pb-3 pt-3 align-self-end">
-                <div class="border">
+            <div th:if="${fullName != null && fullName != ''}" class="col-12 pb-3 pt-3 align-self-end row m-0">
+                <div class="border col-4">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4So53hM-fKiSCd6zwsuTRWwB5-o0xA9aJIw&s"
                          alt="Avatar" width="50px" class="ratio-1x1" sizes="z-index: 0"/>
                     <span th:text="${fullName}"></span>
                 </div>
-                <a href="/auth/logout">Đăng xuất</a>
+                <div class="col-4">
+                    <div class="col-12">
+                        <a href="/user/view">Thông tin cá nhân</a>
+                    </div>
+                    <div class="col-12">
+                        <a href="/auth/logout" class="text-danger">Đăng xuất</a>
+                    </div>
+                    <span th:text="${accountTypeMessage}"></span>
+                </div>
+
             </div>
         </div>
     </div>
@@ -58,10 +69,15 @@
                 <div th:replace="~{auth/auth}"></div>
             </div>
         </div>
+        <div th:if="${roleName == 'admin'}" class="row align-items-start">
+            <div th:replace="~{admin/admin}"></div>
+        </div>
+        <div th:if="${fullName != null && fullName != ''}">
+            <div th:include="~{user/user}"></div>
+
+        </div>
     </div>
-    <div th:if="${roleName == 'admin'}" class="row align-items-start">
-        <div th:replace="~{admin/admin}"></div>
-    </div>
+
 </main>
 <footer>
 

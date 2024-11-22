@@ -173,7 +173,7 @@ public class DataUtils {
     }
 
     public static Date convertStringToTime(String date, String pattern) throws ParseException {
-        if (date == null || "" .equals(date.trim())) {
+        if (date == null || "".equals(date.trim())) {
             return null;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
@@ -447,5 +447,21 @@ public class DataUtils {
     public static boolean isCurrentDateInRange(LocalDateTime startDate, LocalDateTime endDate) {
         LocalDateTime currentDate = LocalDateTime.now();
         return !currentDate.isBefore(startDate) && !currentDate.isAfter(endDate);
+    }
+
+    public static String maskEmail(String email) {
+        if (email == null || !email.contains("@")) {
+            return email; // Invalid email, return as is
+        }
+
+        String[] parts = email.split("@");
+        String localPart = parts[0];
+        String domainPart = parts[1];
+
+        if (localPart.length() > 2) {
+            return localPart.charAt(0) + "****" + localPart.charAt(localPart.length() - 1) + "@" + domainPart;
+        }
+
+        return "****@" + domainPart; // For very short local parts
     }
 }
