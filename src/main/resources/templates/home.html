@@ -58,9 +58,9 @@
             </div>
         </div>
     </div>
-    <div style="height: 200px">
-        <!--        <img th:src="@{/images/barber-banner.webp}" alt="Logo" width="100%" style="object-fit: contain" class="img-fluid"/>-->
-    </div>
+<!--    <div style="height: 200px">-->
+<!--        &lt;!&ndash;        <img th:src="@{/images/barber-banner.webp}" alt="Logo" width="100%" style="object-fit: contain" class="img-fluid"/>&ndash;&gt;-->
+<!--    </div>-->
 </header>
 <main style="FLEX-GROW: 1 ;margin-top:100px;background-color: #f2f4f7">
     <div class="container p-3" style="background-color:white; height:100%">
@@ -76,6 +76,10 @@
             <div th:include="~{user/user}"></div>
 
         </div>
+        <div th:if="${tabName =='teacher'}">
+            <div th:include="~{teacher/teacher}"></div>
+        </div>
+
     </div>
 
 </main>
