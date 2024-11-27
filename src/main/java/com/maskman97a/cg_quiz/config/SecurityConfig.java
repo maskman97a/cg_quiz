@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/auth/login")  // Đường dẫn đến trang đăng nhập
                         .loginProcessingUrl("/auth/login")  // URL xử lý đăng nhập
-                        .defaultSuccessUrl("/home", true)  // Điều hướng về trang chủ khi thành công
+                        .defaultSuccessUrl("/questions", true)  // Điều hướng về trang chủ khi thành công
                         .failureUrl("/auth/login?error=true")  // Điều hướng về trang lỗi khi thất bại
                         .permitAll()
                 )
