@@ -17,14 +17,14 @@ public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    // List all questions with pagination
+    // List
     @GetMapping("/list")
     public String listQuestions(@RequestParam(defaultValue = "0") int page, Model model) {
         model.addAttribute("questions", questionService.getQuestions(page, 5));
         return "questionList";
     }
 
-    // Search questions
+    // Search
     @GetMapping("/search")
     public String searchQuestions(@RequestParam String keyword,
                                   @RequestParam(required = false) String difficulty,
@@ -33,7 +33,7 @@ public class QuestionController {
         return "questionList";
     }
 
-    // View a single question's details
+    //  details
     @GetMapping("/details/{id}")
     public String viewQuestionDetails(@PathVariable Long id, Model model) {
         model.addAttribute("question", questionService.getQuestionDetails(id));

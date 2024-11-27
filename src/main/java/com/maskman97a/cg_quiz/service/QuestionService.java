@@ -17,12 +17,12 @@ public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    // Get questions with pagination
+    // Get questions
     public Page<QuestionEntity> getQuestions(int page, int size) {
         return questionRepository.findAll(PageRequest.of(page, size));
     }
 
-    // Search for questions by title and difficulty
+    // Search
     public Page<QuestionEntity> searchQuestions(String keyword, String difficulty, int page) {
         if (difficulty != null && !difficulty.isEmpty()) {
             return questionRepository.findByTitleContainingAndDifficulty(keyword, difficulty, PageRequest.of(page, 5));
@@ -30,7 +30,7 @@ public class QuestionService {
         return questionRepository.findByTitleContaining(keyword, PageRequest.of(page, 5));
     }
 
-    // Save new or updated question
+    // Save
     public QuestionEntity saveQuestion(QuestionEntity question) {
         return questionRepository.save(question);
     }
