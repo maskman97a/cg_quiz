@@ -1,11 +1,12 @@
 package com.maskman97a.cg_quiz.service;
 
+import com.maskman97a.cg_quiz.common.Const;
 import com.maskman97a.cg_quiz.dto.AnswerInfoDto;
+import com.maskman97a.cg_quiz.dto.ExamResultDto;
 import com.maskman97a.cg_quiz.dto.QuestionInfoDto;
 import com.maskman97a.cg_quiz.dto.enums.DifficultEnum;
 import com.maskman97a.cg_quiz.dto.enums.ExamTypeEnum;
 import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
-import com.maskman97a.cg_quiz.dto.response.TimeRemainResponse;
 import com.maskman97a.cg_quiz.entity.AnswerEntity;
 import com.maskman97a.cg_quiz.entity.ExamDetailEntity;
 import com.maskman97a.cg_quiz.entity.ExamEntity;
@@ -20,18 +21,16 @@ import com.maskman97a.cg_quiz.repository.ExamResultAnswerRepository;
 import com.maskman97a.cg_quiz.repository.ExamResultQuestionRepository;
 import com.maskman97a.cg_quiz.repository.ExamResultRepository;
 import com.maskman97a.cg_quiz.repository.QuestionRepository;
+import com.maskman97a.cg_quiz.utils.DataUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -236,5 +235,14 @@ public class ExamService {
             return null;
         }
         return examResultEntity.getExpiredDate().toString();
+    }
+
+    public List<ExamResultDto> examHistory(Long userId) {
+        return DataUtils.convertList(examResultRepository.findAllByUserId(13L), x -> modelMapper.map(x, ExamResultDto.class));
+    }
+
+    public Page<ExamResultDto> findExamResultsByUserId(Long userId, Pageable pageable) {
+        Page<ExamResultEntity> examHistories = examResultRepository.findByUserId(userId, pageable);
+        return examHistories.map(examHistory -> modelMapper.map(examHistory, ExamResultDto.class));
     }
 }
