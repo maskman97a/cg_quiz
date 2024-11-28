@@ -27,9 +27,9 @@ public class QuestionController {
     // Search
     @GetMapping("/search")
     public String searchQuestions(@RequestParam String keyword,
-                                  @RequestParam(required = false) String difficulty,
+                                  @RequestParam(required = false) String difficult,
                                   @RequestParam(defaultValue = "0") int page, Model model) {
-        model.addAttribute("questions", questionService.searchQuestions(keyword, difficulty, page));
+        model.addAttribute("questions", questionService.searchQuestions(keyword, difficult, page));
         return "questionList";
     }
 

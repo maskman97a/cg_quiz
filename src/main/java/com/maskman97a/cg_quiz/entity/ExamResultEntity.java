@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +18,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExamResultEntity extends BaseEntity {
-    @ManyToOne
-    @JoinColumn(name = "exam_id", nullable = false)
-    private ExamEntity exam;
+    @Column(name = "exam_id", nullable = false)
+    private Long examId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "mark", nullable = false)
-    private Double mark;
+    private Integer mark;
 
-    @OneToMany(mappedBy = "examResult", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ExamResultQuestionEntity> examResultQuestions = new ArrayList<>();
+    @Column(name = "expired_date")
+    private LocalDateTime expiredDate;
+
+    @Column(name = "submit_time")
+    private LocalDateTime submitTime;
+
+
 }

@@ -13,14 +13,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExamDetailEntity extends BaseEntity {
-    @ManyToOne
-    @JoinColumn(name = "exam_id", nullable = false)
-    private ExamEntity exam;
+    @Column(name = "exam_id")
+    private Long examId;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
-    private QuestionEntity question;
+    @Column(name = "question_id")
+    private Long questionId;
 
-    @Column(name = "points", nullable = false)
-    private Integer points;
+    @Column(name = "indx")
+    private Integer index;
 }

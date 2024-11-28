@@ -1,5 +1,6 @@
 package com.maskman97a.cg_quiz.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,11 +17,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ExamResultAnswerEntity extends BaseEntity{
-    @ManyToOne
-    @JoinColumn(name = "exam_result_question_id", nullable = false)
-    private ExamResultQuestionEntity examResultQuestion;
+    @Column(name = "exam_result_question_id", nullable = false)
+    private Long examResultQuestionId;
 
-    @ManyToOne
-    @JoinColumn(name = "answer_id", nullable = false)
-    private AnswerEntity answer;
+    @Column(name = "answer_id", nullable = false)
+    private Long answerId;
 }

@@ -23,9 +23,9 @@ public class QuestionService {
     }
 
     // Search
-    public Page<QuestionEntity> searchQuestions(String keyword, String difficulty, int page) {
-        if (difficulty != null && !difficulty.isEmpty()) {
-            return questionRepository.findByTitleContainingAndDifficulty(keyword, difficulty, PageRequest.of(page, 5));
+    public Page<QuestionEntity> searchQuestions(String keyword, String difficult, int page) {
+        if (difficult != null && !difficult.isEmpty()) {
+            return questionRepository.findByTitleContainingAndDifficult(keyword, difficult, PageRequest.of(page, 5));
         }
         return questionRepository.findByTitleContaining(keyword, PageRequest.of(page, 5));
     }

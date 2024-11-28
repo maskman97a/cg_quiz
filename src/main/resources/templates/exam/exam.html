@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+<div th:if="${functionName =='main'}">
+    <div th:include="~{exam/before-init}"></div>
+</div>
+<div th:if="${functionName =='init'}">
+    <div th:include="~{exam/init}"></div>
+</div>
+<div th:if="${functionName =='doing'}">
+    <div th:include="~{exam/doing}"></div>
+</div>
+<div th:if="${functionName =='result'}">
+    <div th:include="~{exam/result}"></div>
+</div>
+</body>
+</html>

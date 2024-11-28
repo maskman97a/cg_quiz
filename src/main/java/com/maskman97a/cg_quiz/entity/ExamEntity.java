@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "exam")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamEntity extends BaseEntity{
+public class ExamEntity extends BaseEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -35,7 +35,4 @@ public class ExamEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private ExamTypeEnum type;
-
-    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ExamDetailEntity> examDetails = new ArrayList<>();
 }

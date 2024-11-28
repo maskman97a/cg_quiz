@@ -1,6 +1,6 @@
 package com.maskman97a.cg_quiz.entity;
 
-import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultyEnum;
+import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
 import com.maskman97a.cg_quiz.dto.enums.QuestionTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,13 +24,10 @@ public class QuestionEntity extends BaseEntity {
     private QuestionTypeEnum type;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "difficulty", nullable = false)
-    private QuestionDifficultyEnum difficulty;
+    @Column(name = "difficult_level", nullable = false)
+    private QuestionDifficultEnum difficult;
 
-    @ManyToOne
-    @JoinColumn(name = "question_category_id", nullable = false)
-    private QuestionCategoryEntity category;
+    @Column(name = "question_category_id", nullable = false)
+    private Long questionCategoryId;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<AnswerEntity> answers = new ArrayList<>();
 }

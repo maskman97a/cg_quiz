@@ -13,18 +13,17 @@ import lombok.Setter;
 @Table(name = "answer")
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnswerEntity extends  BaseEntity {
+public class AnswerEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "value", nullable = false)
     private AnswerValueEnum value;
 
-    @Column(name = "is_correct", nullable = false)
-    private boolean isCorrect;
+    @Column(name = "correct", nullable = false)
+    private Boolean correct;
 
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
-    private QuestionEntity question;
+    @Column(name = "question_id", nullable = false)
+    private Long questionId;
 }

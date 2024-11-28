@@ -22,7 +22,4 @@ public class QuestionCategoryEntity extends BaseEntity{
 
     @Column(name = "description")
     private String description;
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<QuestionEntity> questions = new ArrayList<>();
 }
