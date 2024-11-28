@@ -73,6 +73,8 @@ public class ExamController extends BaseController {
     public String result(HttpServletRequest request, Model model, @RequestParam("examId") Long examId) {
         ExamResultEntity examResultEntity = examService.result(examId);
         if (examResultEntity != null) {
+            model.addAttribute("pass", examResultEntity.getMark() > 80);
+            model.addAttribute("graduate", examResultEntity.getMark() > 80 ? "Đạt yêu cầu" : "Không đạt");
             model.addAttribute("mark", examResultEntity.getMark());
             model.addAttribute("endTime", examResultEntity.getSubmitTime().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
             model.addAttribute("startTime", examResultEntity.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));

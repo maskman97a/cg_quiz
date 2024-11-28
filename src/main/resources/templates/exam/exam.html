@@ -7,16 +7,16 @@
 </head>
 <body>
 <div th:if="${functionName =='main'}">
-    <div th:include="~{exam/before-init}"></div>
+    <div th:insert="~{exam/before-init}"></div>
 </div>
 <div th:if="${functionName =='init'}">
-    <div th:include="~{exam/init}"></div>
+    <div th:insert="~{exam/init}"></div>
 </div>
 <div th:if="${functionName =='doing'}">
-    <div th:include="~{exam/doing}"></div>
+    <div th:insert="~{exam/doing}"></div>
 </div>
 <div th:if="${functionName =='result'}">
-    <div th:include="~{exam/result}"></div>
+    <div th:insert="~{exam/result}"></div>
 </div>
 </body>
 </html>

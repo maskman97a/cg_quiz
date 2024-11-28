@@ -73,14 +73,14 @@
 
         </div>
         <div th:if="${fullName != null && fullName != ''}">
-            <div th:include="~{user/user}"></div>
+            <div th:insert="~{user/user}"></div>
 
         </div>
         <div th:if="${tabName =='teacher'}">
-            <div th:include="~{teacher/teacher}"></div>
+            <div th:insert="~{teacher/teacher}"></div>
         </div>
         <div th:if="${tabName =='exam'}">
-            <div th:include="~{exam/exam}"></div>
+            <div th:insert="~{exam/exam}"></div>
         </div>
 
     </div>
