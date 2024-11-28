@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Thông tin bài thi</h1>
+<span class="col-12">Mã bài thi: <span class="text-success" th:text="${examId}"></span></span>
+<span class="col-12">Số lượng câu hỏi: <span class="text-success" th:text="${totalQuestion}"></span></span>
+<span class="col-12">Thời gian làm bài: <span class="text-success fs-3" th:text="${totalTime}"></span></span>
+<span class="col-12">Độ khó: <span class="text-danger" th:text="${difficult}"></span></span>
+<a class="btn btn-primary" th:href="'/exam/start?examId=' + ${examId}">Bắt đầu thi</a>
+</body>
+</html>

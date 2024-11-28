@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Tạo mới giáo viên</h1>
+<form class="form" action="/teacher/create" method="post">
+    <div class="mb-3">
+        <label>Tên giáo viên</label>
+        <input class="form-control" type="text" name="name">
+    </div>
+    <div class="mb-3">
+        <label>Tuổi giáo viên</label>
+        <input class="form-control" type="text" name="age">
+    </div>
+    <a href="/teacher" class="btn btn-secondary" type="submit">Quay lại</a>
+    <button class="btn btn-primary" type="submit">Tạo mới</button>
+</form>
+</body>
+</html>

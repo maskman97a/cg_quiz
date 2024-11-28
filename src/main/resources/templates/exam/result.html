@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-12">
+    Điểm của bạn: <h3 class="text-success" th:text="${mark}"></h3>
+</div>
+<div class="col-12">
+     <h3 th:class="${pass == true ? 'text-success': 'text-danger'}" th:text="${graduate}"></h3>
+</div>
+<div class="col-12">
+    Thời gian bắt đầu: <span class="text-success" th:text="${startTime}"></span>
+</div>
+<div class="col-12">
+    Thời gian nộp bài: <span class="text-success" th:text="${endTime}"></span>
+</div>
+<div class="col-12">
+    <a class="btn btn-primary" href="/exam">Thực hiện thi lại</a>
+</div>
+</body>
+</html>

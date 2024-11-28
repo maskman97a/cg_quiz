@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+<div th:if="${startExamMsg != null}">
+    <span class="text-danger col-12" th:text="${startExamMsg}"></span>
+    <a class="btn btn-primary" href="/exam">Thực hiện thi lại</a>
+</div>
+<div th:if="${startExamMsg == null}">
+    <input id="examIdValue" type="text" th:value="${examId}" hidden/>
+    <div class="row m-0">
+        <div class="col-9">
+            <h1>Câu hỏi số <span id="currentQuestionNo"></span></h1>
+            <div class="col-12">
+                <span class="text-success fs-1">Đề bài: </span>
+                <span class="s-5" id="questionTitle"></span>
+            </div>
+            <div class="col-12" id="answerListDiv"></div>
+            <div class="col-12">
+                <input id="btnPrevious" class="btn btn-secondary" type="button" value="Câu trước"
+                       onclick="loadPreviousQuestion()"/>
+                <input id="btnNext" class="btn btn-primary" type="button" onclick="loadNextQuestion()"
+                       value="Câu tiếp theo"/>
+                <a id="btnSubmit" class="btn btn-success" th:href="'/exam/submit?examId='+ ${examId}">Nộp bài</a>
+            </div>
+        </div>
+        <div class="col-3">
+            <span>Thời gian còn lại</span>
+            <span id="expiredTime" th:text="${expiredTime}" hidden></span>
+            <p id="countdown" class="text-danger"></p>
+        </div>
+    </div>
+</div>
+<script>
+    function loadPreviousQuestion() {
+        let currentQuestionNo = parseInt($("#currentQuestionNo").html());
+        if (currentQuestionNo > 1) {
+            loadQuestion(currentQuestionNo - 1);
+        }
+    }
+
+    function loadNextQuestion() {
+        let currentQuestionNo = parseInt($("#currentQuestionNo").html());
+        if (currentQuestionNo < 10) {
+            loadQuestion(currentQuestionNo + 1);
+        }
+    }
+
+    function answer(currentQuestionNo, selected) {
+        let examId = $("#examIdValue").val();
+        $.ajax({
+            url: contextPath + '/exam/answer', // Thay bằng URL API của bạn
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: JSON.stringify({
+                examId: examId,
+                questionNo: currentQuestionNo,
+                answerIdList: selected
+            }),
+            success: function (response) {
+                if (response === 'TIMEOUT') {
+                    alert("Thời gian thi đã hết");
+                    window.location.href = contextPath + "/exam/result?examId=" + examId;
+                }
+                if (response === 'SUBMITTED') {
+                    alert("Bài thi đã được nộp trước đó");
+                    window.location.href = contextPath + "/exam/result?examId=" + examId;
+                }
+            },
+            error: function (error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    }
+
+
+    const contextPath = window.location.pathname.split('/')[0];
+    $(document).ready(function () {
+        loadQuestion(1)
+    });
+
+    function formatNumber(num) {
+        return num < 10 ? '0' + num : num.toString();
+    }
+
+    // Đặt ngày giờ đếm ngược
+    const countdownDate = new Date($("#expiredTime").html()).getTime();
+
+    // Cập nhật countdown mỗi giây
+    const countdownInterval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = countdownDate - now;
+
+        // Tính toán ngày, giờ, phút, giây
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        let formatMinutes = formatNumber(minutes);
+        let formatSeconds = formatNumber(seconds);
+
+        // Hiển thị countdown
+        document.getElementById("countdown").innerHTML =
+            `${formatMinutes}:${formatSeconds}`;
+
+        // Khi countdown kết thúc
+        if (distance < 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("countdown").innerHTML = "Countdown Finished!";
+        }
+    }, 1000);
+
+    function loadQuestion(questionNo) {
+        setShowHideBtnNextPrevious(questionNo);
+
+        let examId = $("#examIdValue").val();
+        $("#currentQuestionNo").html(questionNo);
+        // Gọi API
+        getQuestion(examId, questionNo);
+
+        initFunctionHandlerSelect(questionNo);
+    }
+
+    function initFunctionHandlerSelect(currentQuestionNo) {
+        $(document).off('change', 'input[type="radio"][name="items"]');
+
+        // Xử lý checkbox
+        $(document).off('change', 'input[type="checkbox"][name="items"]');
+
+        $(document).on('change', 'input[type="radio"][name="items"]', function () {
+            const selectedValues = [Number($(this).val())];
+            answer(currentQuestionNo, selectedValues);
+        });
+
+        // Xử lý checkbox
+        $(document).on('change', 'input[type="checkbox"][name="items"]', function () {
+            const selectedValues = $('input[type="checkbox"][name="items"]:checked')
+                .map(function () {
+                    return Number($(this).val());
+                })
+                .get();
+            answer(currentQuestionNo, selectedValues);
+        });
+    }
+
+    function setShowHideBtnNextPrevious(questionNo) {
+        if (questionNo === 1) {
+            $("#btnPrevious").hide();
+        } else {
+            $("#btnPrevious").show();
+        }
+        if (questionNo === 10) {
+            $("#btnNext").hide();
+            $("#btnSubmit").show();
+        } else {
+            $("#btnSubmit").hide();
+            $("#btnNext").show();
+        }
+    }
+
+    function getQuestion(examId, questionNo) {
+        $.ajax({
+            url: contextPath + '/exam/get-question?examId=' + examId + "&questionNo=" + questionNo, // Thay bằng URL API của bạn
+            method: 'GET',
+            success: function (response) {
+                $("#questionTitle").html(response.title);
+                // Thay đổi kiểu input: 'radio' hoặc 'checkbox'
+                const inputType = response.type === 'SINGLE_SELECT' ? 'radio' : 'checkbox'; // hoặc 'checkbox'
+
+                // Container để hiển thị radio/checkbox
+                const container = $('#answerListDiv');
+                container.empty(); // Xóa nội dung của container
+                // Duyệt qua dữ liệu từ API và tạo các input
+                response.answerList.forEach(item => {
+                    let selected = item.selected ? 'checked' : '';
+                    const input = $(`
+                            <div>
+                                <input type="${inputType}" id="item-${item.id}" name="items" value="${item.id}" ${selected}>
+                                <label for="item-${item.id}">${item.value}. ${item.description}</label>
+                            </div>
+                        `);
+                    container.append(input);
+                });
+            },
+            error: function (error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    }
+</script>
+</body>
+</html>
