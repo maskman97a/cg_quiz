@@ -15,7 +15,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ExamResultDto {
+public class ExamResultDto extends BaseDto {
     private Long id;
     private Long examId;
     private Long userId;
@@ -23,11 +23,6 @@ public class ExamResultDto {
     private Enum graduate;
     private LocalDateTime expiredDate;
     private LocalDateTime submitTime;
-    private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime updatedAt;
-    private String updatedBy;
-    private Integer isDeleted;
     private String submitTimeStr;
     private String graduateStr;
 

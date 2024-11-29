@@ -18,12 +18,7 @@ import java.util.List;
 @Table(name = "exam_result")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamResultEntity  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
+public class ExamResultEntity  extends BaseEntity{
     @Column(name = "exam_id", nullable = false)
     private Long examId;
 
@@ -41,17 +36,5 @@ public class ExamResultEntity  {
 
     @Column(name = "submit_time")
     private LocalDateTime submitTime;
-
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-    @Column(name = "created_by")
-    private String createdBy;
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-    @Column(name = "updated_by")
-    private String updatedBy;
-    @Column(name = "is_deleted", nullable = false, columnDefinition = "tinyint(1)")
-    private Integer isDeleted;
 
 }
