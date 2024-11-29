@@ -241,7 +241,7 @@ public class ExamService {
         return DataUtils.convertList(examResultRepository.findAllByUserId(13L), x -> modelMapper.map(x, ExamResultDto.class));
     }
 
-    public Page<ExamResultDto> findExamResultsByUserId(Long userId, Pageable pageable) {
+    public Page<ExamResultDto>  findExamResultsByUserId(Long userId, Pageable pageable) {
         Page<ExamResultEntity> examHistories = examResultRepository.findByUserId(userId, pageable);
         return examHistories.map(examHistory -> modelMapper.map(examHistory, ExamResultDto.class));
     }

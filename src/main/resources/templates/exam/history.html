@@ -74,33 +74,33 @@
             <ul class="pagination justify-content-center">
                 <!-- First Page Button -->
                 <li class="page-item" th:class="${currentPage == 0 ? 'disabled' : ''}">
-                    <a class="page-link" th:href="@{/exam/history?userId=13&page=0}" aria-label="First">
+                    <a class="page-link" th:href="@{/exam/history?page=0}" aria-label="First">
                         <span aria-hidden="true">&laquo;&laquo;</span>
                     </a>
                 </li>
 
                 <!-- Previous Page Button -->
                 <li class="page-item" th:class="${currentPage == 0 ? 'disabled' : ''}">
-                    <a class="page-link" th:href="@{/exam/history(userId=${userId}, page=${currentPage} - 1)}" aria-label="Previous">
+                    <a class="page-link" th:href="@{/exam/history(page=${currentPage} - 1)}" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
 
                 <!-- Page Numbers -->
                 <li class="page-item" th:each="i : ${pageNumbers}" th:class="${currentPage == i ? 'active' : ''}">
-                    <a class="page-link" th:href="@{/exam/history(userId=${userId}, page=${i}, size=5)}">[[${i + 1}]]</a>
+                    <a class="page-link" th:href="@{/exam/history(page=${i}, size=5)}">[[${i + 1}]]</a>
                 </li>
 
                 <!-- Next Page Button -->
                 <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                    <a class="page-link" th:href="@{/exam/history(userId=${userId}, page=${currentPage} + 1)}" aria-label="Next">
+                    <a class="page-link" th:href="@{/exam/history(page=${currentPage} + 1)}" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
 
                 <!-- Last Page Button -->
                 <li class="page-item" th:class="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-                    <a class="page-link" th:href="@{/exam/history(userId=${userId}, page=${totalPages} - 1)}" aria-label="Last">
+                    <a class="page-link" th:href="@{/exam/history(page=${totalPages} - 1)}" aria-label="Last">
                         <span aria-hidden="true">&raquo;&raquo;</span>
                     </a>
                 </li>
