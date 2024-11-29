@@ -99,7 +99,6 @@ public class ExamController extends BaseController {
     @GetMapping("/history")
     public String examHistory(HttpServletRequest request,
                               Model model,
-                              @RequestParam(value = "userId", required = false) Long userId,
                               @RequestParam(value = "page", defaultValue = "0") int page,
                               @RequestParam(value = "size", defaultValue = "5") int size) {
         Page<ExamResultDto> examResults = examService.findExamResultsByUserId(13L, PageRequest.of(page, size));
