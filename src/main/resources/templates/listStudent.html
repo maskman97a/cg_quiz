@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sinh viên</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h1 class="mb-4">Danh sách sinh viên</h1>
+
+    <!-- Form tìm kiếm -->
+    <form th:action="@{/student}" method="get" class="d-flex mb-3">
+        <input type="text" name="keyword" th:value="${keyword}" class="form-control me-2" placeholder="Tìm kiếm sinh viên">
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </form>
+
+    <!-- Bảng hiển thị dữ liệu sinh viên -->
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Tên</th>
+            <th>Ngày tạo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student : ${students}">
+            <td th:text="${student.id}">ID</td>
+            <td th:text="${student.email}">Email</td>
+            <td th:text="${student.name}">Tên</td>
+            <td th:text="${student.createdAt}">Ngày tạo</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <div class="d-flex justify-content-between">
+        <!-- Hiển thị tổng số dữ liệu -->
+        <div>
+            <p>Hiển thị trang [[${currentPage + 1}]] của [[${totalPages}]], tổng số [[${totalItems}]] sinh viên.</p>
+        </div>
+
+        <!-- Nút chuyển trang -->
+        <nav>
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{|/home/student?page=${currentPage - 1}&size=20&keyword=${keyword}|}">Trang trước</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{|/home/student?page=${i}&size=20&keyword=${keyword}|}" th:text="${i + 1}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                    <a class="page-link" th:href="@{|/home/student?page=${currentPage + 1}&size=20&keyword=${keyword}|}">Trang sau</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>
