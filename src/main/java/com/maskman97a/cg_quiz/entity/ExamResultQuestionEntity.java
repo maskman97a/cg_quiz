@@ -14,8 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "exam_result_question")
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class ExamResultQuestionEntity extends BaseEntity {
     @Column(name = "exam_result_id", nullable = false)
     private Long examResultId;

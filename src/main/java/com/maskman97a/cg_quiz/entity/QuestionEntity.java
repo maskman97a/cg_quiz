@@ -12,8 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "question")
-@AllArgsConstructor
-@NoArgsConstructor
 public class QuestionEntity extends BaseEntity {
 
     @Column(name = "title", nullable = false)
