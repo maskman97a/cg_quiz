@@ -1,5 +1,6 @@
 package com.maskman97a.cg_quiz.controller;
 
+import com.maskman97a.cg_quiz.dto.ExamDTO;
 import com.maskman97a.cg_quiz.dto.ExamResultDto;
 import com.maskman97a.cg_quiz.dto.QuestionInfoDto;
 import com.maskman97a.cg_quiz.dto.enums.DifficultEnum;
@@ -12,6 +13,7 @@ import com.maskman97a.cg_quiz.entity.QuestionEntity;
 import com.maskman97a.cg_quiz.service.ExamService;
 import com.maskman97a.cg_quiz.utils.DataUtils;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -120,23 +122,23 @@ public class ExamController extends BaseController {
     }
 
     @GetMapping("/list")
-    public String getExamListPage(Model model){
+    public String getExamListPage(HttpServletRequest httpServletRequest, Model model) {
         List<ExamEntity> examList = examService.getList();
         model.addAttribute("examList", examList);
-        return "exam/exam";
+        return renderPage(httpServletRequest, model, "exam", "list");
     }
 
     @GetMapping("/create")
-    public String create(Model model){
+    public String create(HttpServletRequest httpServletRequest, Model model) {
         model.addAttribute("exam", new ExamEntity());
-        return "exam/create";
+        return renderPage(httpServletRequest, model, "exam", "create");
     }
 
     @PostMapping("/create")
-    public String save(@Valid @ModelAttribute("exam") ExamDTO examDTO, BindingResult bindingResult, Model model){
+    public String save(@Valid @ModelAttribute("exam") ExamDTO examDTO, BindingResult bindingResult, HttpServletRequest httpServletRequest, Model model) {
         new ExamDTO().validate(examDTO, bindingResult);
-        if(bindingResult.hasErrors()){
-            return "exam/create";
+        if (bindingResult.hasErrors()) {
+            return renderPage(httpServletRequest, model, "exam", "create");
         }
         ExamEntity exam = new ExamEntity();
         BeanUtils.copyProperties(examDTO, exam);

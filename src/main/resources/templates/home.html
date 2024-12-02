@@ -158,7 +158,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Quizizz Admin</a>
+        <a class="navbar-brand" href="">Quizizz Admin</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -166,10 +166,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-light ml-2" href="/login">Log in</a>
+                    <a class="btn btn-outline-light ml-2" href="/login"
+                       th:if="${fullName == null && tabName != 'auth'}">Log in</a>
+
+                    <div th:if="${fullName !=null && fullName !='' }" class="col-12 pb-3 pt-3 align-self-end row m-0">
+                        <div class="border bg-light rounded p-1">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4So53hM-fKiSCd6zwsuTRWwB5-o0xA9aJIw&s"
+                                 alt="Avatar" width="50px" class="ratio-1x1" sizes="z-index: 0"/>
+                            <span th:text="${fullName}"></span>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -177,101 +183,69 @@
 </nav>
 
 <!-- Sidebar -->
-<div class="sidebar">
-    <a href="#">My Quizzes</a>
-    <a href="#">Reports</a>
-    <a href="#">Settings</a>
-    <a href="#">Profile</a>
+<div class="sidebar" style="padding-top:60px">
+    <a href="/exam">Làm quiz</a>
+    <div th:if="${fullName !=null && fullName !='' }">
+        <a href="/user/view">Thông tin cá nhân</a>
+        <a href="/auth/logout" class="text-danger">Đăng xuất</a>
+    </div>
 </div>
 
 <!-- Main Content -->
 <div class="content">
-    <h1 class="mb-4 text-primary">Quiz Management</h1>
-    <div class="quiz-grid">
-        <!-- Quiz Card -->
-        <div class="card">
-            <img src="" class="card-img-top" alt="Category">
-            <div class="card-body">
-                <h5 class="card-title">Category</h5>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">View List</a>
-            </div>
+    <div th:if="${roleName != 'admin'}">
+        <div th:if="${tabName == 'auth'}">
+            <div th:replace="~{auth/auth}"></div>
         </div>
-        <div class="card">
-            <img src="" class="card-img-top" alt="Questions">
-            <div class="card-body">
-                <h5 class="card-title">Question</h5>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">View List</a>
+    </div>
+    <div th:if="${roleName == 'admin'}" class="row align-items-start">
+        <div th:replace="~{admin/admin}"></div>
+    </div>
+    <div th:if="${fullName != null && fullName != ''}">
+        <div th:insert="~{user/user}"></div>
+
+    </div>
+    <div th:if="${tabName =='teacher'}">
+        <div th:insert="~{teacher/teacher}"></div>
+    </div>
+    <div th:if="${tabName =='exam'}">
+        <div th:insert="~{exam/exam}"></div>
+    </div>
+    <div th:if="${tabName =='home'}">
+        <h1 class="mb-4 text-primary">Quiz Management</h1>
+        <div class="quiz-grid">
+            <!-- Quiz Card -->
+            <div class="card">
+                <img src="" class="card-img-top" alt="Category">
+                <div class="card-body">
+                    <h5 class="card-title">Category</h5>
+                    <p class="card-text"></p>
+                    <a href="#" class="btn btn-primary">View List</a>
+                </div>
             </div>
-        </div>
-        <div class="card">
-            <img src="" class="card-img-top" alt="Exams">
-            <div class="card-body">
-                <h5 class="card-title">Exam</h5>
-                <p class="card-text"></p>
-                <a href="/exam/list" class="btn btn-primary">View List</a>
+            <div class="card">
+                <img src="" class="card-img-top" alt="Questions">
+                <div class="card-body">
+                    <h5 class="card-title">Question</h5>
+                    <p class="card-text"></p>
+                    <a href="#" class="btn btn-primary">View List</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="" class="card-img-top" alt="Exams">
+                <div class="card-body">
+                    <h5 class="card-title">Exam</h5>
+                    <p class="card-text"></p>
+                    <a href="/exam/list" class="btn btn-primary">View List</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!--<header style=" position: fixed; top:0; left:0; z-index:0; width:100%">-->
-<!--    <div class="container">-->
-<!--        <div class="row m-0">-->
-<!--            <div class="col-4 pb-3 pt-3 align-self-end" th:if="${fullName == null && tabName != 'auth'}">-->
-<!--                <a href="/auth/login" class="btn btn-primary">Đăng nhập</a>-->
-<!--            </div>-->
-<!--            <div th:if="${fullName != null && fullName != ''}" class="col-12 pb-3 pt-3 align-self-end row m-0">-->
-<!--                <div class="border col-4">-->
-<!--                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4So53hM-fKiSCd6zwsuTRWwB5-o0xA9aJIw&s"-->
-<!--                         alt="Avatar" width="50px" class="ratio-1x1" sizes="z-index: 0"/>-->
-<!--                    <span th:text="${fullName}"></span>-->
-<!--                </div>-->
-<!--                <div class="col-4">-->
-<!--                    <div class="col-12">-->
-<!--                        <a href="/user/view">Thông tin cá nhân</a>-->
-<!--                    </div>-->
-<!--                    <div class="col-12">-->
-<!--                        <a href="/auth/logout" class="text-danger">Đăng xuất</a>-->
-<!--                    </div>-->
-<!--                    <span th:text="${accountTypeMessage}"></span>-->
-<!--                </div>-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--&lt;!&ndash;    <div style="height: 200px">&ndash;&gt;-->
-<!--&lt;!&ndash;        &lt;!&ndash;        <img th:src="@{/images/barber-banner.webp}" alt="Logo" width="100%" style="object-fit: contain" class="img-fluid"/>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--</header>-->
-<!--<main style="FLEX-GROW: 1 ;margin-top:100px;background-color: #f2f4f7">-->
-<!--    <div class="container p-3" style="background-color:white; height:100%">-->
-<!--        <div th:if="${roleName != 'admin'}">-->
-<!--            <div th:if="${tabName == 'auth'}">-->
-<!--                <div th:replace="~{auth/auth}"></div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div th:if="${roleName == 'admin'}" class="row align-items-start">-->
-<!--            <div th:replace="~{admin/admin}"></div>-->
-<!--        </div>-->
-<!--        <div th:if="${fullName != null && fullName != ''}">-->
-<!--            <div th:insert="~{user/user}"></div>-->
-
-<!--        </div>-->
-<!--        <div th:if="${tabName =='teacher'}">-->
-<!--            <div th:insert="~{teacher/teacher}"></div>-->
-<!--        </div>-->
-<!--        <div th:if="${tabName =='exam'}">-->
-<!--            <div th:insert="~{exam/exam}"></div>-->
-<!--        </div>-->
-
-<!--    </div>-->
-
-<!--</main>-->
 <footer>
     <div class="footer">
-        &copy;
+        &copy; Codegym
     </div>
 </footer>
 
