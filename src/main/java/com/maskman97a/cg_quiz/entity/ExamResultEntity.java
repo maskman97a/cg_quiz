@@ -1,6 +1,5 @@
 package com.maskman97a.cg_quiz.entity;
 
-import com.maskman97a.cg_quiz.dto.enums.DeleteEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,8 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "exam_result")
-@AllArgsConstructor
-@NoArgsConstructor
 public class ExamResultEntity  extends BaseEntity{
     @Column(name = "exam_id", nullable = false)
     private Long examId;

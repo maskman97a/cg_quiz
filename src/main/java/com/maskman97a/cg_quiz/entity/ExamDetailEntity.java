@@ -10,8 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "exam_detail")
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class ExamDetailEntity extends BaseEntity {
     @Column(name = "exam_id")
     private Long examId;
