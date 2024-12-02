@@ -2,17 +2,13 @@ package com.maskman97a.cg_quiz.entity;
 
 import com.maskman97a.cg_quiz.dto.enums.AnswerValueEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "answer")
-@AllArgsConstructor
-@NoArgsConstructor
 public class AnswerEntity extends  BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "value", nullable = false)

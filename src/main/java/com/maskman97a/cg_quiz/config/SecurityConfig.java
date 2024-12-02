@@ -40,7 +40,7 @@ public class SecurityConfig {
 //                        .requestMatchers("**").permitAll()
                                 .requestMatchers("/auth/login", "/auth/register", "/auth/forget", "/home", "/").permitAll()
                                 .requestMatchers("/js/**", "/css/**", "/images/**", "favicon.ico").permitAll()
-                                .requestMatchers("/teacher/**").permitAll()
+                                .requestMatchers("/questions/**").permitAll()
                                 .requestMatchers("/admin/**").hasAuthority(UserTypeEnum.ADMIN.name())
                                 .requestMatchers("/teacher/**").hasAuthority(UserTypeEnum.TEACHER.name())
                                 .requestMatchers("/student/**").hasAuthority(UserTypeEnum.STUDENT.name())

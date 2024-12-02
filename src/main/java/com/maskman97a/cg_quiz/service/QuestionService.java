@@ -1,47 +1,78 @@
 package com.maskman97a.cg_quiz.service;
 
+import com.maskman97a.cg_quiz.dto.AnswerDTO;
+import com.maskman97a.cg_quiz.dto.QuestionDTO;
+import com.maskman97a.cg_quiz.entity.AnswerEntity;
 import com.maskman97a.cg_quiz.entity.QuestionEntity;
+import com.maskman97a.cg_quiz.repository.AnswerRepository;
 import com.maskman97a.cg_quiz.repository.QuestionRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+
 public class QuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
-    // Get questions
-    public Page<QuestionEntity> getQuestions(int page, int size) {
-        return questionRepository.findAll(PageRequest.of(page, size));
-    }
+    @Autowired
+    private AnswerRepository answerRepository;
 
-    // Search
-    public Page<QuestionEntity> searchQuestions(String keyword, String difficulty, int page) {
-        if (difficulty != null && !difficulty.isEmpty()) {
-            return questionRepository.findByTitleContainingAndDifficulty(keyword, difficulty, PageRequest.of(page, 5));
+    // Thêm mới câu hỏi
+    public void createQuestion(QuestionDTO questionDTO) {
+        QuestionEntity questionEntity = new QuestionEntity();
+        questionEntity.setTitle(questionDTO.getTitle());
+        questionEntity.setType(questionDTO.getType());
+        questionEntity.setDifficulty(questionDTO.getDifficulty());
+        questionEntity.setCategory(questionDTO.getCategoryId());
+
+        // Lưu câu hỏi
+        questionRepository.save(questionEntity);
+
+        // Thêm các câu trả lời
+        for (AnswerDTO answerDTO : questionDTO.getAnswers()) {
+            AnswerEntity answerEntity = new AnswerEntity();
+            answerEntity.setValue(answerDTO.getValue());
+            answerEntity.setCorrect(answerDTO.isCorrect());
+            answerEntity.setDescription(answerDTO.getDescription());
+            answerEntity.setQuestion(questionEntity);
+            answerRepository.save(answerEntity);
         }
-        return questionRepository.findByTitleContaining(keyword, PageRequest.of(page, 5));
     }
 
-    // Save
-    public QuestionEntity saveQuestion(QuestionEntity question) {
-        return questionRepository.save(question);
+    // Lấy danh sách câu hỏi với phân trang
+    public Page<QuestionEntity> getQuestions(Pageable pageable) {
+        return questionRepository.findAll(pageable);
     }
 
-    // Get question details by ID
-    public QuestionEntity getQuestionDetails(Long questionId) {
-        return questionRepository.findById(questionId).orElseThrow(() -> new IllegalArgumentException("Question not found"));
+    // Tìm kiếm câu hỏi theo tên
+    public List<QuestionEntity> searchQuestions(String title) {
+        return questionRepository.findByTitleContaining(title);
     }
 
-    // Delete a question by ID
-    public void deleteQuestion(Long questionId) {
-        questionRepository.deleteById(questionId);
+    // Cập nhật câu hỏi
+    public void updateQuestion(Long id, QuestionDTO questionDTO) {
+        QuestionEntity questionEntity = questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
+        questionEntity.setTitle(questionDTO.getTitle());
+        questionEntity.setType(questionDTO.getType());
+        questionEntity.setDifficulty(questionDTO.getDifficulty());
+        questionEntity.setCategory(questionDTO.getCategoryId());
+        questionRepository.save(questionEntity);
     }
+
+    // Xóa câu hỏi
+    public void deleteQuestion(Long id) {
+        QuestionEntity questionEntity = questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
+        questionRepository.delete(questionEntity);
+    }
+
+    // Xem chi tiết câu hỏi
+    public QuestionEntity getQuestionById(Long id) {
+        return questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
+    }
+
+
 }

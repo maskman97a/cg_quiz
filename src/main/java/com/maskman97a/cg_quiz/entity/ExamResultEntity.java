@@ -13,8 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "exam_result")
-@AllArgsConstructor
-@NoArgsConstructor
 public class ExamResultEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "exam_id", nullable = false)

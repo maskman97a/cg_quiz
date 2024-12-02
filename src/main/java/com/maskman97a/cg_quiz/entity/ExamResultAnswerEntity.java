@@ -13,8 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "exam_result_answer")
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class ExamResultAnswerEntity extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "exam_result_question_id", nullable = false)

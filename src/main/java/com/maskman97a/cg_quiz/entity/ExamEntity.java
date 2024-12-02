@@ -14,8 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "exam")
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class ExamEntity extends BaseEntity{
     @Column(name = "name", nullable = false)
     private String name;
