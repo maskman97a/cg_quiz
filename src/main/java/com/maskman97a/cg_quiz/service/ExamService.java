@@ -9,6 +9,8 @@ import com.maskman97a.cg_quiz.dto.enums.ExamTypeEnum;
 import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
 import com.maskman97a.cg_quiz.entity.AnswerEntity;
 import com.maskman97a.cg_quiz.entity.ExamDetailEntity;
+import com.maskman97a.cg_quiz.dto.ExamDTO;
+import com.maskman97a.cg_quiz.dto.enums.TypeExamEnum;
 import com.maskman97a.cg_quiz.entity.ExamEntity;
 import com.maskman97a.cg_quiz.entity.ExamResultAnswerEntity;
 import com.maskman97a.cg_quiz.entity.ExamResultEntity;
@@ -27,7 +29,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -244,5 +249,18 @@ public class ExamService {
     public Page<ExamResultDto>  findExamResultsByUserId(Long userId, Pageable pageable) {
         Page<ExamResultEntity> examHistories = examResultRepository.findByUserId(userId, pageable);
         return examHistories.map(examHistory -> modelMapper.map(examHistory, ExamResultDto.class));
+    }
+
+    public List<ExamEntity> getList(){
+        return examRepository.findAll();
+    }
+
+
+    public void create(ExamEntity exam) {
+        examRepository.save(exam);
+    }
+
+    public void updateExam(ExamEntity exam) {
+        examRepository.save(exam);
     }
 }

@@ -6,6 +6,7 @@ import com.maskman97a.cg_quiz.dto.enums.DifficultEnum;
 import com.maskman97a.cg_quiz.dto.enums.GraduateEnum;
 import com.maskman97a.cg_quiz.dto.request.SubmitAnswerReq;
 import com.maskman97a.cg_quiz.dto.response.TimeRemainResponse;
+import com.maskman97a.cg_quiz.entity.ExamEntity;
 import com.maskman97a.cg_quiz.entity.ExamResultEntity;
 import com.maskman97a.cg_quiz.entity.QuestionEntity;
 import com.maskman97a.cg_quiz.service.ExamService;
@@ -13,6 +14,7 @@ import com.maskman97a.cg_quiz.utils.DataUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,7 +22,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,5 +117,30 @@ public class ExamController extends BaseController {
         }
         model.addAttribute("pageNumbers", pageNumbers);
         return renderPage(request, model, "exam", "history");
+    }
+
+    @GetMapping("/list")
+    public String getExamListPage(Model model){
+        List<ExamEntity> examList = examService.getList();
+        model.addAttribute("examList", examList);
+        return "exam/exam";
+    }
+
+    @GetMapping("/create")
+    public String create(Model model){
+        model.addAttribute("exam", new ExamEntity());
+        return "exam/create";
+    }
+
+    @PostMapping("/create")
+    public String save(@Valid @ModelAttribute("exam") ExamDTO examDTO, BindingResult bindingResult, Model model){
+        new ExamDTO().validate(examDTO, bindingResult);
+        if(bindingResult.hasErrors()){
+            return "exam/create";
+        }
+        ExamEntity exam = new ExamEntity();
+        BeanUtils.copyProperties(examDTO, exam);
+        examService.create(exam);
+        return "redirect:/exam/list";
     }
 }
