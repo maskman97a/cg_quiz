@@ -12,7 +12,7 @@
 <div class="container mt-5">
   <h1 class="mb-4" th:text="${question.id == null ? 'Thêm câu hỏi' : 'Sửa câu hỏi'}"></h1>
 
-  <form th:action="@{/questions/save}" th:object="${question}" method="post">
+  <form th:action="@{/templates/question/save}" th:object="${question}" method="post">
     <div class="mb-3">
       <label for="title" class="form-label">Tiêu đề</label>
       <input type="text" id="title" class="form-control" th:field="*{title}" required />
@@ -29,7 +29,7 @@
 
     <div class="mb-3">
       <label for="difficulty" class="form-label">Độ khó</label>
-      <select id="difficulty" class="form-control" th:field="*{difficulty}" required>
+      <select id="difficulty" class="form-control" th:field="*{difficult}" required>
         <option value="EASY">Dễ</option>
         <option value="NORMAL">Trung bình</option>
         <option value="HARD">Khó</option>

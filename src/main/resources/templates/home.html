@@ -211,6 +211,9 @@
     <div th:if="${tabName =='exam'}">
         <div th:insert="~{exam/exam}"></div>
     </div>
+    <div th:if="${tabName =='question'}">
+        <div th:insert="~{question/question}"></div>
+    </div>
     <div th:if="${tabName =='home'}">
         <h1 class="mb-4 text-primary">Quiz Management</h1>
         <div class="quiz-grid">
@@ -228,7 +231,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Question</h5>
                     <p class="card-text"></p>
-                    <a href="#" class="btn btn-primary">View List</a>
+                    <a href="/questions" class="btn btn-primary">View List</a>
                 </div>
             </div>
             <div class="card">

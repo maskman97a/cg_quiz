@@ -3,6 +3,7 @@ package com.maskman97a.cg_quiz.controller;
 import com.maskman97a.cg_quiz.dto.QuestionDTO;
 import com.maskman97a.cg_quiz.entity.QuestionEntity;
 import com.maskman97a.cg_quiz.service.QuestionService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,33 +18,33 @@ import java.util.List;
 @Controller
 @RequestMapping("/questions")
 
-public class QuestionController {
+public class QuestionController extends BaseController {
 
     @Autowired
     private QuestionService questionService;
 
     // Hiển thị tất cả câu hỏi với phân trang
     @GetMapping
-    public String listQuestions(Model model, @RequestParam(defaultValue = "0") int page) {
+    public String listQuestions(HttpServletRequest req, Model model, @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 5, Sort.by("createdAt").descending());
         Page<QuestionEntity> questionPage = questionService.getQuestions(pageable);
         model.addAttribute("questionPage", questionPage);
-        return "questions/list";
+        return renderPage(req, model, "question", "list");
     }
 
     // Xem chi tiết câu hỏi
     @GetMapping("/{id}")
-    public String viewQuestion(@PathVariable Long id, Model model) {
-        QuestionEntity question = questionService.getQuestionById(id);
+    public String viewQuestion(HttpServletRequest req, @PathVariable Long id, Model model) {
+        QuestionDTO question = questionService.getQuestionById(id);
         model.addAttribute("question", question);
-        return "questions/detail";
+        return renderPage(req, model, "question", "details");
     }
 
     // Tạo mới câu hỏi
     @GetMapping("/create")
-    public String createQuestionForm(Model model) {
+    public String createQuestionForm(HttpServletRequest req, Model model) {
         model.addAttribute("questionDTO", new QuestionDTO());
-        return "questions/create";
+        return renderPage(req, model, "question", "create");
     }
 
     @PostMapping("/create")
@@ -54,10 +55,10 @@ public class QuestionController {
 
     // Cập nhật câu hỏi
     @GetMapping("/edit/{id}")
-    public String editQuestionForm(@PathVariable Long id, Model model) {
-        QuestionEntity question = questionService.getQuestionById(id);
+    public String editQuestionForm(HttpServletRequest req, @PathVariable Long id, Model model) {
+        QuestionDTO question = questionService.getQuestionById(id);
         model.addAttribute("question", question);
-        return "questions/edit";
+        return renderPage(req, model, "question", "edit");
     }
 
     @PostMapping("/edit/{id}")
@@ -68,10 +69,10 @@ public class QuestionController {
 
     // Tìm kiếm câu hỏi
     @GetMapping("/search")
-    public String searchQuestions(@RequestParam String title, Model model) {
+    public String searchQuestions(HttpServletRequest req, @RequestParam String title, Model model) {
         List<QuestionEntity> questions = questionService.searchQuestions(title);
         model.addAttribute("questions", questions);
-        return "questions/search";
+        return renderPage(req, model, "question", "search");
     }
 
     // Xóa câu hỏi
