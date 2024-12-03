@@ -13,8 +13,7 @@ public class TeacherService {
     private TeacherRepository teacherRepository;
 
     public List<TeacherEntity> getList() {
-        List<TeacherEntity> teacherList = teacherRepository.findAll();
-        return teacherList;
+        return teacherRepository.findAll();
     }
 
     public TeacherEntity createTeacher(String teacherName, Integer teacherAge) {

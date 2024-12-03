@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-public interface TeacherRepository {
+public interface TeacherRepository extends JpaRepository<TeacherEntity, Long> {
 //    Page<TeacherEntity> findAll(Pageable pageable);
 
     Page<TeacherEntity> findByNameContaining(String name, Pageable pageable);
