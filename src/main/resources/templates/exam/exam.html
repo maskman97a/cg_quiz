@@ -21,6 +21,9 @@
 <div th:if="${functionName =='history'}">
     <div th:insert="~{exam/history}"></div>
 </div>
+<div th:if="${functionName =='history-detail'}">
+    <div th:insert="~{exam/history-detail}"></div>
+</div>
 <div th:if="${functionName =='list'}" class="container my-5">
     <div th:insert="~{exam/list}"></div>
 </div>
