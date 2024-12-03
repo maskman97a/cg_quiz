@@ -38,7 +38,7 @@ public class QuestionService {
         questionEntity.setTitle(questionDTO.getTitle());
         questionEntity.setType(questionDTO.getType());
         questionEntity.setDifficult(questionDTO.getDifficulty());
-        questionEntity.setQuestionCategoryId(questionDTO.getCategoryId());
+        questionEntity.setQuestionCategoryId(questionDTO.getQuestionCategoryId());
 
         // Lưu câu hỏi
         questionEntity = questionRepository.save(questionEntity);
@@ -70,16 +70,16 @@ public class QuestionService {
         questionEntity.setTitle(questionDTO.getTitle());
         questionEntity.setType(questionDTO.getType());
         questionEntity.setDifficult(questionDTO.getDifficulty());
-        questionEntity.setQuestionCategoryId(questionDTO.getCategoryId());
+        questionEntity.setQuestionCategoryId(questionDTO.getQuestionCategoryId());
         questionRepository.save(questionEntity);
     }
+
 
     // Xóa câu hỏi
     public void deleteQuestion(Long id) {
         QuestionEntity questionEntity = questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));
         questionRepository.delete(questionEntity);
     }
-
     // Xem chi tiết câu hỏi
     public QuestionDTO getQuestionById(Long id) {
         QuestionEntity questionEntity = questionRepository.findById(id).orElseThrow(() -> new RuntimeException("Question not found"));

@@ -2,7 +2,7 @@ package com.maskman97a.cg_quiz.dto;
 
 import com.maskman97a.cg_quiz.dto.enums.DifficultEnum;
 import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
-import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultyEnum;
+import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
 import com.maskman97a.cg_quiz.dto.enums.QuestionTypeEnum;
 import com.maskman97a.cg_quiz.entity.QuestionCategoryEntity;
 import jakarta.persistence.Column;
@@ -21,8 +21,6 @@ public class QuestionDTO {
     private QuestionTypeEnum type;
     private QuestionDifficultEnum difficulty;
     private Long categoryId;
-    private QuestionDifficultyEnum difficulty;
-    private QuestionCategoryEntity categoryId;
     private List<AnswerDTO> answers;
 
 

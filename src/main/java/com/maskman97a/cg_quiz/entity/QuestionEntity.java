@@ -5,7 +5,7 @@ import com.maskman97a.cg_quiz.dto.enums.QuestionTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Entity
@@ -27,5 +27,8 @@ public class QuestionEntity extends BaseEntity {
 
     @Column(name = "question_category_id", nullable = false)
     private Long questionCategoryId;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AnswerEntity> answers;
 
 }
