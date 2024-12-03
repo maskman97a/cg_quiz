@@ -61,7 +61,7 @@ public class QuestionCategoryController extends BaseController {
         return "redirect:/question-categories";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteCategory(HttpServletRequest req, @PathVariable Long id, Model model) {
         if (questionCategoryService.canDeleteCategory(id)) {
             questionCategoryService.deleteCategory(id);
