@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,25 +27,25 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
+        http.csrf().disable()  // Tắt CSRF nếu cần.
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("**").permitAll()
-                                .requestMatchers("/auth/login", "/auth/register", "/home", "/").permitAll()
-                                .requestMatchers("/js/**", "/css/**", "/images/**", "favicon.ico").permitAll()
-                                .anyRequest().authenticated() // Tất cả các yêu cầu khác đều cần xác thực
+                        .requestMatchers("/auth/login", "/auth/register", "/home", "/").permitAll()  // Cho phép truy cập các trang này
+                        .requestMatchers("/js/**", "/css/**", "/images/**", "/favicon.ico").permitAll()  // Tài nguyên tĩnh
+                        .requestMatchers("/question-categories/**").permitAll()  // Cho phép truy cập các URL liên quan đến danh mục
+                        .anyRequest().authenticated()  // Các yêu cầu khác cần xác thực
                 )
                 .formLogin(form -> form
-                        .loginPage(Const.LOGIN_ENDPOINT)  // Định nghĩa trang login
+                        .loginPage(Const.LOGIN_ENDPOINT)  // Trang đăng nhập
                         .loginProcessingUrl(Const.LOGIN_ENDPOINT)
-                        .defaultSuccessUrl("/home", true)  // Sau khi đăng nhập thành công, điều hướng tới trang home
-                        .failureUrl("/auth/login?error=true")  // Trang login khi có loi xác thực
+                        .defaultSuccessUrl("/home", true)
+                        .failureUrl("/auth/login?error=true")
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/auth/logout")  // URL để thực hiện đăng xuất
-                        .logoutSuccessUrl(Const.LOGIN_ENDPOINT)  // Điều hướng sau khi đăng xuất thành công
-                        .invalidateHttpSession(true)  // Vô hiệu hóa session
-                        .deleteCookies("JSESSIONID")  // Xóa cookie phiên
+                        .logoutUrl("/auth/logout")
+                        .logoutSuccessUrl(Const.LOGIN_ENDPOINT)
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 );
 

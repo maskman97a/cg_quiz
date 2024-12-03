@@ -21,29 +21,5 @@ public class HomeController extends BaseController {
         renderPage(httpServletRequest, model, "home", null);
         return homePage();
     }
-    @Autowired
-    private AdminService adminService;
-    private UserRepository userRepository;
-    @GetMapping("/teacher")
-    public String getTeacher(
-            Model model,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size,
-            @RequestParam(defaultValue = "") String keyword
-    ) {
-        Page<UserEntity> teacherPage;
-        if (keyword.isEmpty()) {
-            teacherPage = userRepository.findAll(PageRequest.of(page, size));
-        } else {
-            teacherPage = userRepository.findByNameContaining(keyword, PageRequest.of(page, size));
-        }
 
-        model.addAttribute("teachers", teacherPage.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", teacherPage.getTotalPages());
-        model.addAttribute("totalItems", teacherPage.getTotalElements());
-        model.addAttribute("keyword", keyword);
-
-        return "listTeacher";
-    }
 }

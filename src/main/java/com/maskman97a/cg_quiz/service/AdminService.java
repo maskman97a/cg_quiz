@@ -25,4 +25,5 @@ public class AdminService extends BaseEntity {
         Pageable pageable = Pageable.ofSize(20);
         List<UserEntity> teacherAccountList = userRepository.findByUserTypeOrderByCreatedAtDesc(pageable, UserTypeEnum.STUDENT);
     }
+
 }
