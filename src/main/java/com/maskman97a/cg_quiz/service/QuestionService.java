@@ -3,6 +3,7 @@ package com.maskman97a.cg_quiz.service;
 import com.maskman97a.cg_quiz.dto.AnswerDTO;
 import com.maskman97a.cg_quiz.dto.QuestionCategoryDTO;
 import com.maskman97a.cg_quiz.dto.QuestionDTO;
+import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
 import com.maskman97a.cg_quiz.entity.AnswerEntity;
 import com.maskman97a.cg_quiz.entity.QuestionCategoryEntity;
 import com.maskman97a.cg_quiz.entity.QuestionEntity;
@@ -60,8 +61,8 @@ public class QuestionService {
     }
 
     // Tìm kiếm câu hỏi theo tên
-    public List<QuestionEntity> searchQuestions(String title) {
-        return questionRepository.findByTitleContaining(title);
+    public List<QuestionEntity> searchQuestions(String keyword, QuestionDifficultEnum difficultEnum) {
+        return questionRepository.findByTitleContaining(keyword, difficultEnum);
     }
 
     // Cập nhật câu hỏi

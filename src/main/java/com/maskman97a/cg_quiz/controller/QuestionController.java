@@ -1,6 +1,7 @@
 package com.maskman97a.cg_quiz.controller;
 
 import com.maskman97a.cg_quiz.dto.QuestionDTO;
+import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
 import com.maskman97a.cg_quiz.entity.QuestionEntity;
 import com.maskman97a.cg_quiz.service.QuestionService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -69,10 +70,11 @@ public class QuestionController extends BaseController {
 
     // Tìm kiếm câu hỏi
     @GetMapping("/search")
-    public String searchQuestions(HttpServletRequest req, @RequestParam String title, Model model) {
-        List<QuestionEntity> questions = questionService.searchQuestions(title);
+    public String searchQuestions(HttpServletRequest req, @RequestParam("keyword") String title, @RequestParam(value = "difficult", required = false) QuestionDifficultEnum difficult, Model model) {
+        List<QuestionEntity> questions = questionService.searchQuestions(title, difficult);
         model.addAttribute("questions", questions);
-        return renderPage(req, model, "question", "search");
+        model.addAttribute("keyword", title);
+        return renderPage(req, model, "question", "list");
     }
 
     // Xóa câu hỏi
