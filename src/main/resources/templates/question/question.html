@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${functionName =='create'}">
+    <div th:insert="~{question/create}"></div>
+</div>
+<div th:if="${functionName =='details'}">
+    <div th:insert="~{question/details}"></div>
+</div>
+<div th:if="${functionName =='list'}">
+    <div th:insert="~{question/list}"></div>
+</div>
+<div th:if="${functionName =='edit'}">
+    <div th:insert="~{question/edit}"></div>
+</div>
+
+
+</body>
+</html>

@@ -23,4 +23,6 @@ public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
             AND a.correct = true
             """)
     List<AnswerEntity> findAllRightAnswerForQuestion(List<Long> questionIds);
+
+    List<AnswerEntity> findByQuestionId(Long questionId);
 }

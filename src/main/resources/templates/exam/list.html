@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+<!-- Header -->
+<div class="header">
+    <h1>List Exam</h1>
+</div>
+
+<!-- Button Create -->
+<div class="text-right">
+    <a href="/exam/create" class="btn btn-create">+ Create New Exam</a>
+</div>
+
+<!-- Table Container -->
+<div class="table-container">
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>Exam Name</th>
+            <th>Total Questions</th>
+            <th>Exam Type</th>
+            <th>Total Time</th>
+            <th>Passing Score</th>
+            <th>Created Date</th>
+            <th>Created By</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exam : ${examList}">
+            <td th:text="${exam.name}"></td>
+            <td th:text="${exam.totalQuestion}"></td>
+            <td th:text="${exam.type}"></td>
+            <td th:text="${exam.totalTime}"></td>
+            <td th:text="${exam.graduateMark}"></td>
+            <td th:text="${exam.createdAt}"></td>
+            <td th:text="${exam.createdBy}"></td>
+            <td class="action-buttons">
+                <a href="/exam/update/{exam.id}" class="btn btn-sm btn-edit"><i class="fas fa-edit"></i> Edit</a>
+                <a href="/exam/delete/{exam.id}" class="btn btn-sm btn-delete"><i class="fas fa-trash-alt"></i>
+                    Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

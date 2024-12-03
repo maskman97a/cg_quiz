@@ -7,8 +7,11 @@ import com.maskman97a.cg_quiz.dto.QuestionInfoDto;
 import com.maskman97a.cg_quiz.dto.enums.DifficultEnum;
 import com.maskman97a.cg_quiz.dto.enums.ExamTypeEnum;
 import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
+import com.maskman97a.cg_quiz.dto.response.ExamResultDetailDto;
 import com.maskman97a.cg_quiz.entity.AnswerEntity;
 import com.maskman97a.cg_quiz.entity.ExamDetailEntity;
+import com.maskman97a.cg_quiz.dto.ExamDTO;
+import com.maskman97a.cg_quiz.dto.enums.TypeExamEnum;
 import com.maskman97a.cg_quiz.entity.ExamEntity;
 import com.maskman97a.cg_quiz.entity.ExamResultAnswerEntity;
 import com.maskman97a.cg_quiz.entity.ExamResultEntity;
@@ -27,7 +30,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -241,8 +246,25 @@ public class ExamService {
         return DataUtils.convertList(examResultRepository.findAllByUserId(13L), x -> modelMapper.map(x, ExamResultDto.class));
     }
 
-    public Page<ExamResultDto>  findExamResultsByUserId(Long userId, Pageable pageable) {
-        Page<ExamResultEntity> examHistories = examResultRepository.findByUserId(userId, pageable);
+    public Page<ExamResultDto> findExamResultsByUserId(Pageable pageable) {
+        Page<ExamResultEntity> examHistories = examResultRepository.findByUserIdOrderBySubmitTimeDesc(userService.getCurrentUser().getId(), pageable);
         return examHistories.map(examHistory -> modelMapper.map(examHistory, ExamResultDto.class));
+    }
+
+    public Page<ExamResultDetailDto> findExamResultsDetail(Pageable pageable,Long examResultId) {
+        return examResultQuestionRepository.findExamResultDetails(pageable,examResultId);
+    }
+
+    public List<ExamEntity> getList() {
+        return examRepository.findAll();
+    }
+
+
+    public void create(ExamEntity exam) {
+        examRepository.save(exam);
+    }
+
+    public void updateExam(ExamEntity exam) {
+        examRepository.save(exam);
     }
 }

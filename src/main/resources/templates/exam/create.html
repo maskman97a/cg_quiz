@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm Bài Thi</title>
+</head>
+<body>
+<div class="form-container">
+    <h1>Thêm Bài Thi</h1>
+    <form th:action="@{/exam/create}" th:object="${exam}" method="post">
+        <div class="form-group">
+            <label for="name">Tên Bài Thi:</label>
+            <input class="form-control" type="text" id="name" th:field="*{name}" placeholder="Nhập tên bài thi">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="totalQuestion">Số Lượng Câu Hỏi:</label>
+            <input class="form-control" type="number" id="totalQuestion" th:field="*{totalQuestion}"
+                   placeholder="Nhập số câu hỏi">
+            <span th:if="${#fields.hasErrors('totalQuestion')}" th:errors="*{totalQuestion}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="totalTime">Thời Gian Làm Bài (Phút):</label>
+            <input class="form-control" type="number" id="totalTime" th:field="*{totalTime}"
+                   placeholder="Nhập thời gian làm bài">
+            <span th:if="${#fields.hasErrors('totalTime')}" th:errors="*{totalTime}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="type">Loại Đề Thi:</label>
+            <select class="form-control" id="type" th:field="*{type}">
+                <option value="EASY">Dễ</option>
+                <option value="NORMAL">Trung Bình</option>
+                <option value="HARD">Khó</option>
+            </select>
+            <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="graduateMark">Điểm Đạt:</label>
+            <input class="form-control" type="number" id="graduateMark" th:field="*{graduateMark}"
+                   placeholder="Nhập điểm đạt">
+            <span th:if="${#fields.hasErrors('graduateMark')}" th:errors="*{graduateMark}"></span>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Tạo Mới</button>
+    </form>
+</div>
+</body>
+</html>

@@ -15,5 +15,5 @@ public interface ExamResultRepository extends JpaRepository<ExamResultEntity, Lo
 
     List<ExamResultEntity> findAllByUserId(Long userId);
 
-    Page<ExamResultEntity> findByUserId(Long userId, Pageable pageable);
+    Page<ExamResultEntity> findByUserIdOrderBySubmitTimeDesc(Long userId, Pageable pageable);
 }

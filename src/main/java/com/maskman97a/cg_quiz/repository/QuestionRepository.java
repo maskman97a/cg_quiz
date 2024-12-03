@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 import java.util.List;
 
@@ -33,4 +34,6 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
             WHERE e.id = :examId
             """)
     List<QuestionEntity> findByExamId(Long examId);
+    Page<QuestionEntity> findAll(Pageable pageable);
+    List<QuestionEntity> findByTitleContaining(String title);
 }
