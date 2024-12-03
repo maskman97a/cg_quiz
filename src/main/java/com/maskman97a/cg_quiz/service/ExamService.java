@@ -7,6 +7,7 @@ import com.maskman97a.cg_quiz.dto.QuestionInfoDto;
 import com.maskman97a.cg_quiz.dto.enums.DifficultEnum;
 import com.maskman97a.cg_quiz.dto.enums.ExamTypeEnum;
 import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
+import com.maskman97a.cg_quiz.dto.response.ExamResultDetailDto;
 import com.maskman97a.cg_quiz.entity.AnswerEntity;
 import com.maskman97a.cg_quiz.entity.ExamDetailEntity;
 import com.maskman97a.cg_quiz.dto.ExamDTO;
@@ -246,8 +247,12 @@ public class ExamService {
     }
 
     public Page<ExamResultDto> findExamResultsByUserId(Pageable pageable) {
-        Page<ExamResultEntity> examHistories = examResultRepository.findByUserId(userService.getCurrentUser().getId(), pageable);
+        Page<ExamResultEntity> examHistories = examResultRepository.findByUserIdOrderBySubmitTimeDesc(userService.getCurrentUser().getId(), pageable);
         return examHistories.map(examHistory -> modelMapper.map(examHistory, ExamResultDto.class));
+    }
+
+    public Page<ExamResultDetailDto> findExamResultsDetail(Pageable pageable,Long examResultId) {
+        return examResultQuestionRepository.findExamResultDetails(pageable,examResultId);
     }
 
     public List<ExamEntity> getList() {
