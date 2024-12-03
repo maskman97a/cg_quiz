@@ -15,24 +15,32 @@
     <div class="row m-0">
         <div class="col-9">
             <h1>Câu hỏi số <span id="currentQuestionNo"></span></h1>
-            <div class="col-12">
+            <div class="col-12 mb-3">
                 <span class="text-success fs-1">Đề bài: </span>
                 <span class="s-5" id="questionTitle"></span>
             </div>
             <div class="col-12" id="answerListDiv"></div>
-            <div class="col-12">
-                <input id="btnPrevious" class="btn btn-secondary" type="button" value="Câu trước"
-                       onclick="loadPreviousQuestion()"/>
-                <input id="btnNext" class="btn btn-primary" type="button" onclick="loadNextQuestion()"
-                       value="Câu tiếp theo"/>
-                <a id="btnSubmit" class="btn btn-success" th:href="'/exam/submit?examId='+ ${examId}">Nộp bài</a>
+            <div class="row m-0">
+                <div class="col-9 row m-0">
+                    <div class="col-3 m-0">
+                        <input id="btnPrevious" class="btn btn-secondary form-control" type="button" value="Câu trước"
+                               onclick="loadPreviousQuestion()"/>
+                    </div>
+                    <div class="col-3 m-0">
+                        <input id="btnNext" class="btn btn-primary form-control" type="button" onclick="loadNextQuestion()"
+                               value="Câu tiếp theo"/>
+                    </div>
+
+                </div>
             </div>
         </div>
         <div class="col-3">
             <span>Thời gian còn lại</span>
             <span id="expiredTime" th:text="${expiredTime}" hidden></span>
             <p id="countdown" class="text-danger"></p>
+            <a class="btn btn-success form-control" th:href="'/exam/submit?examId='+ ${examId}">Nộp bài</a>
         </div>
+
     </div>
 </div>
 <script>
