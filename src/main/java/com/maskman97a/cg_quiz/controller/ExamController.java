@@ -107,7 +107,7 @@ public class ExamController extends BaseController {
                               Model model,
                               @RequestParam(value = "page", defaultValue = "0") int page,
                               @RequestParam(value = "size", defaultValue = "5") int size) {
-        Page<ExamResultDto> examResults = examService.findExamResultsByUserId(13L, PageRequest.of(page, size));
+        Page<ExamResultDto> examResults = examService.findExamResultsByUserId(PageRequest.of(page, size));
         model.addAttribute("examHistories", examResults.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", examResults.getTotalPages());
