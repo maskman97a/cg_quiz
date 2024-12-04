@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 public class QuestionCategoryController {
@@ -17,10 +20,24 @@ public class QuestionCategoryController {
 
     @GetMapping("/question-categories")
     public String listCategories(Model model) {
-        model.addAttribute("category", questionCategoryService.getAllCategories(0, 20));
+        List<QuestionCategoryEntity> categories = questionCategoryService.findAll();
+        model.addAttribute("categories", categories);
+        return "category/list";
+
+
+    }
+    @GetMapping("/question-categories/search")
+    public String searchCategories(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        List<QuestionCategoryEntity> categories;
+        if (keyword != null && !keyword.isEmpty()) {
+            categories = questionCategoryService.searchByKeyword(keyword);
+        } else {
+            categories = questionCategoryService.findAll();
+        }
+        model.addAttribute("categories", categories);
+        model.addAttribute("keyword", keyword);
         return "category/list";
     }
-
     @GetMapping("/question-categories/add")
     public String showAddCategoryForm() {
         return "category/add";
@@ -66,5 +83,6 @@ public class QuestionCategoryController {
             model.addAttribute("error", "Cannot delete category with existing questions!");
         }
         return "redirect:/question-categories";
+
     }
 }

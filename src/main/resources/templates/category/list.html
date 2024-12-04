@@ -96,7 +96,7 @@
     <h1>Danh Sách Danh Mục</h1>
     <a class="create-btn" th:href="@{/question-categories/add}">Tạo Danh Mục Mới</a>
     <form class="search-form" action="/question-categories/search" method="get">
-        <input type="text" name="keyword" placeholder="Tìm kiếm theo Tên hoặc Miêu tả" value="${param.keyword}" />
+        <input type="text" class="search-form" name="keyword" placeholder="Tìm kiếm theo Tên hoặc Miêu tả" />
         <button type="submit">Tìm Kiếm</button>
     </form>
 

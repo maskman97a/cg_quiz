@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class QuestionCategoryService {
 
@@ -41,5 +43,14 @@ public class QuestionCategoryService {
 
     public void deleteCategory(Long id) {
         repository.deleteById(id);
+    }
+
+
+    public List<QuestionCategoryEntity> searchByKeyword(String keyword) {
+        return repository.findByNameContainingOrDescriptionContaining(keyword, keyword);
+    }
+
+    public List<QuestionCategoryEntity> findAll() {
+        return repository.findAll();
     }
 }
