@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Exam Details</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+<h1>Exam Details</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Exam Detail ID</th>
+    <th>Question ID</th>
+    <th>Question Title</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- Duyệt qua từng exam detail -->
+  <tr th:each="examDetail : ${examDetails}">
+    <!-- Hiển thị id của exam detail -->
+    <td th:text="${examDetail.id}"></td>
+
+    <!-- Hiển thị id của câu hỏi (question_id) -->
+    <td th:text="${examDetail.question.id}"></td>
+
+    <!-- Hiển thị tiêu đề câu hỏi từ bảng question -->
+    <td th:text="${examDetail.question.title}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
+

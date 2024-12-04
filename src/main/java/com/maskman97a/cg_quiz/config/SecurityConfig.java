@@ -43,6 +43,7 @@ public class SecurityConfig {
                                 .requestMatchers("/exam/**").permitAll()
                                 .requestMatchers("/exam/list").permitAll()
                                 .requestMatchers("/exam/create").permitAll()
+                                .requestMatchers("/exam-details/**").permitAll()
                                 .requestMatchers("/admin/**").hasAuthority(UserTypeEnum.ADMIN.name())
                                 .requestMatchers("/teacher/**").hasAuthority(UserTypeEnum.TEACHER.name())
                                 .requestMatchers("/student/**").hasAuthority(UserTypeEnum.STUDENT.name())
