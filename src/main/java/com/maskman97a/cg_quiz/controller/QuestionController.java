@@ -2,6 +2,7 @@ package com.maskman97a.cg_quiz.controller;
 
 import com.maskman97a.cg_quiz.dto.QuestionDTO;
 import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
+import com.maskman97a.cg_quiz.service.QuestionCategoryService;
 import com.maskman97a.cg_quiz.service.QuestionService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/questions")
 public class QuestionController extends BaseController {
+
 
     @Autowired
     private QuestionService questionService;

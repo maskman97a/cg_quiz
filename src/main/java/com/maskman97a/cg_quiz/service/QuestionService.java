@@ -1,3 +1,5 @@
+package com.maskman97a.cg_quiz.service;
+
 import com.maskman97a.cg_quiz.dto.AnswerDTO;
 import com.maskman97a.cg_quiz.dto.QuestionDTO;
 import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
@@ -36,12 +38,22 @@ public class QuestionService {
         // Tạo entity câu hỏi
         QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setTitle(questionDTO.getTitle());
-        questionEntity.setType(questionDTO.getType());
-        questionEntity.setDifficult(questionDTO.getDifficulty());
+        questionEntity.setType(QuestionTypeEnum.valueOf(questionDTO.getType()));
+        questionEntity.setDifficult(QuestionDifficultEnum.valueOf(questionDTO.getDifficulty()));
 
         // Lấy danh mục câu hỏi từ DB
-        QuestionCategoryEntity categoryEntity = questionCategoryRepository.findById(questionDTO.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Danh mục không tồn tại"));
+        QuestionCategoryEntity categoryEntity;
+        try {
+            // Xử lý trường hợp categoryName là ID
+            Long categoryId = Long.valueOf(questionDTO.getCategoryName());
+            categoryEntity = questionCategoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new RuntimeException("Danh mục không tồn tại"));
+        } catch (NumberFormatException e) {
+            // Xử lý trường hợp categoryName là tên
+            categoryEntity = questionCategoryRepository.findByName(questionDTO.getCategoryName())
+                    .orElseThrow(() -> new RuntimeException("Danh mục không tồn tại"));
+        }
+
         questionEntity.setQuestionCategoryId(categoryEntity.getId());
 
         // Lưu câu hỏi vào DB
@@ -67,8 +79,8 @@ public class QuestionService {
                     QuestionDTO questionDTO = modelMapper.map(questionEntity, QuestionDTO.class);
 
                     // Chuyển loại câu hỏi và độ khó sang tên hiển thị
-                    questionDTO.setType(QuestionTypeEnum.valueOf(questionEntity.getType()).getDisplayName());
-                    questionDTO.setDifficulty(QuestionDifficultEnum.valueOf(questionEntity.getDifficult()).getDisplayName());
+                    questionDTO.setType(QuestionTypeEnum.valueOf(String.valueOf(questionEntity.getType())).getDisplayName());
+                    questionDTO.setDifficulty(QuestionDifficultEnum.valueOf(String.valueOf(questionEntity.getDifficult())).getDisplayName());
 
                     // Lấy tên danh mục
                     Optional<QuestionCategoryEntity> optionalCategory = questionCategoryRepository.findById(questionEntity.getQuestionCategoryId());
@@ -88,8 +100,8 @@ public class QuestionService {
             QuestionDTO questionDTO = modelMapper.map(questionEntity, QuestionDTO.class);
 
             // Chuyển loại câu hỏi và độ khó sang tên hiển thị
-            questionDTO.setType(QuestionTypeEnum.valueOf(questionEntity.getType()).getDisplayName());
-            questionDTO.setDifficulty(QuestionDifficultEnum.valueOf(questionEntity.getDifficult()).getDisplayName());
+            questionDTO.setType(QuestionTypeEnum.valueOf(String.valueOf(questionEntity.getType())).getDisplayName());
+            questionDTO.setDifficulty(QuestionDifficultEnum.valueOf(String.valueOf(questionEntity.getDifficult())).getDisplayName());
 
             // Lấy tên danh mục
             Optional<QuestionCategoryEntity> optionalCategory = questionCategoryRepository.findById(questionEntity.getQuestionCategoryId());
@@ -110,12 +122,22 @@ public class QuestionService {
 
         // Cập nhật thông tin câu hỏi
         questionEntity.setTitle(questionDTO.getTitle());
-        questionEntity.setType(questionDTO.getType());
-        questionEntity.setDifficult(questionDTO.getDifficulty());
+        questionEntity.setType(QuestionTypeEnum.valueOf(questionDTO.getType()));
+        questionEntity.setDifficult(QuestionDifficultEnum.valueOf(questionDTO.getDifficulty()));
 
         // Lấy danh mục từ DB và cập nhật
-        QuestionCategoryEntity categoryEntity = questionCategoryRepository.findById(questionDTO.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("Danh mục không tồn tại"));
+        QuestionCategoryEntity categoryEntity;
+        try {
+            // Xử lý trường hợp categoryName là ID
+            Long categoryId = Long.valueOf(questionDTO.getCategoryName());
+            categoryEntity = questionCategoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new RuntimeException("Danh mục không tồn tại"));
+        } catch (NumberFormatException e) {
+            // Xử lý trường hợp categoryName là tên
+            categoryEntity = questionCategoryRepository.findByName(questionDTO.getCategoryName())
+                    .orElseThrow(() -> new RuntimeException("Danh mục không tồn tại"));
+        }
+
         questionEntity.setQuestionCategoryId(categoryEntity.getId());
 
         questionRepository.save(questionEntity);
@@ -169,8 +191,8 @@ public class QuestionService {
         categoryEntity.ifPresent(category -> questionDTO.setCategoryName(category.getName()));
 
         // Chuyển loại câu hỏi và độ khó sang tên hiển thị
-        questionDTO.setType(QuestionTypeEnum.valueOf(questionEntity.getType()).getDisplayName());
-        questionDTO.setDifficulty(QuestionDifficultEnum.valueOf(questionEntity.getDifficult()).getDisplayName());
+        questionDTO.setType(QuestionTypeEnum.valueOf(String.valueOf(questionEntity.getType())).getDisplayName());
+        questionDTO.setDifficulty(QuestionDifficultEnum.valueOf(String.valueOf(questionEntity.getDifficult())).getDisplayName());
 
         return questionDTO;
     }

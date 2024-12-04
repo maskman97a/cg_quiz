@@ -1,3 +1,5 @@
+package com.maskman97a.cg_quiz.dto;
+
 import com.maskman97a.cg_quiz.dto.AnswerDTO;
 import lombok.Getter;
 import lombok.Setter;

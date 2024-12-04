@@ -1,3 +1,5 @@
+package com.maskman97a.cg_quiz.dto.enums;
+
 public enum QuestionTypeEnum {
     SINGLE_SELECT("Single Select", "Đơn"),
     MULTI_SELECT("Multi Select", "Chọn đáp án"),
