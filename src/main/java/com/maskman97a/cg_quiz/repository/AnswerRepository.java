@@ -1,9 +1,6 @@
 package com.maskman97a.cg_quiz.repository;
 
 import com.maskman97a.cg_quiz.entity.AnswerEntity;
-import com.maskman97a.cg_quiz.entity.QuestionEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,7 +16,7 @@ public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
     @Query("""
             SELECT a
             FROM AnswerEntity a
-            WHERE a.questionId in :questionIds
+            WHERE a.questionId IN :questionIds
             AND a.correct = true
             """)
     List<AnswerEntity> findAllRightAnswerForQuestion(List<Long> questionIds);

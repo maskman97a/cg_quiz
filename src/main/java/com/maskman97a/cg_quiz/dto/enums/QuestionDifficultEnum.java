@@ -1,13 +1,21 @@
-package com.maskman97a.cg_quiz.dto.enums;
-
 public enum QuestionDifficultEnum {
-    EASY("Easy"),
-    NORMAL("Normal"),
-    HARD("Hard");
+    EASY("Easy", "Dễ"),
+    NORMAL("Normal", "Trung Bình"),
+    HARD("Hard", "Khó");
 
-    private final String name;
+    private final String displayName;
+    private final String displayNameVie;
 
-    QuestionDifficultEnum(String name) {
-        this.name = name;
+    QuestionDifficultEnum(String displayName, String displayNameVie) {
+        this.displayName = displayName;
+        this.displayNameVie = displayNameVie;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getDisplayNameVie() {
+        return displayNameVie;
     }
 }

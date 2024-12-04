@@ -43,6 +43,7 @@
             <td th:text="${question.difficulty}"></td>
             <td th:text="${question.category.name}"></td>
             <td>
+                <a th:href="@{/questions/create}" class="btn btn-success">Add Question</a>
                 <a th:href="@{/questions/details/{id}(id=${question.id})}" class="btn btn-info">Details</a>
                 <a th:href="@{/questions/edit/{id}(id=${question.id})}" class="btn btn-warning">Edit</a>
                 <form th:action="@{/questions/delete/{id}(id=${question.id})}" method="post" style="display:inline;">

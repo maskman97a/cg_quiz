@@ -10,10 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import java.util.List;
-
 @Repository
 public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> {
+
     Page<QuestionEntity> findByTitleContainingAndDifficult(String title, String difficult, Pageable pageable);
 
     Page<QuestionEntity> findByTitleContaining(String title, Pageable pageable);
@@ -21,8 +20,8 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
     @Query("""
             SELECT q
             FROM QuestionEntity q
-            INNER JOIN ExamDetailEntity ed on ed.questionId = q.id
-            INNER JOIN ExamEntity e on e.id = ed.examId
+            INNER JOIN ExamDetailEntity ed ON ed.questionId = q.id
+            INNER JOIN ExamEntity e ON e.id = ed.examId
             WHERE e.id = :examId
             AND ed.index = :questionNo
             """)
@@ -31,22 +30,19 @@ public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> 
     @Query("""
             SELECT q
             FROM QuestionEntity q
-            INNER JOIN ExamDetailEntity ed on ed.questionId = q.id
-            INNER JOIN ExamEntity e on e.id = ed.examId
+            INNER JOIN ExamDetailEntity ed ON ed.questionId = q.id
+            INNER JOIN ExamEntity e ON e.id = ed.examId
             WHERE e.id = :examId
             """)
     List<QuestionEntity> findByExamId(Long examId);
 
     Page<QuestionEntity> findAll(Pageable pageable);
 
-
-    List<QuestionEntity> findByTitleContainingIgnoreCase(String title);
-
     @Query("""
             SELECT q
             FROM QuestionEntity q
             WHERE q.title LIKE %:keyword%
-            AND (:difficult is null or q.difficult = :difficult)
+            AND (:difficult IS NULL OR q.difficult = :difficult)
             """)
     List<QuestionEntity> findByTitleContaining(String keyword, QuestionDifficultEnum difficult);
 }

@@ -1,13 +1,4 @@
-package com.maskman97a.cg_quiz.dto;
-
-import com.maskman97a.cg_quiz.dto.enums.DifficultEnum;
-import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
-import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
-import com.maskman97a.cg_quiz.dto.enums.QuestionTypeEnum;
-import com.maskman97a.cg_quiz.entity.QuestionCategoryEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.maskman97a.cg_quiz.dto.AnswerDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,13 +9,8 @@ import java.util.List;
 public class QuestionDTO {
     private Long id;
     private String title;
-    private QuestionTypeEnum type;
-    private QuestionDifficultEnum difficulty;
-    private Long categoryId;
+    private String type; // Kiểu dạng String
+    private String difficulty; // Dạng String
+    private String categoryName; // Chỉ hiển thị tên danh mục
     private List<AnswerDTO> answers;
-
-
-    private QuestionDifficultEnum difficult;
-    private Long questionCategoryId;
-    private QuestionCategoryDTO category;
 }
