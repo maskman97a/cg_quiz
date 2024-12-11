@@ -39,7 +39,7 @@ public class QuestionService {
         QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setTitle(questionDTO.getTitle());
         questionEntity.setType(QuestionTypeEnum.valueOf(questionDTO.getType()));
-        questionEntity.setDifficult(QuestionDifficultEnum.valueOf(questionDTO.getDifficulty()));
+        questionEntity.setDifficult(QuestionDifficultEnum.valueOf(questionDTO.getDifficult()));
 
         // Lấy danh mục câu hỏi từ DB
         QuestionCategoryEntity categoryEntity;
@@ -80,7 +80,7 @@ public class QuestionService {
 
                     // Chuyển loại câu hỏi và độ khó sang tên hiển thị
                     questionDTO.setType(QuestionTypeEnum.valueOf(String.valueOf(questionEntity.getType())).getDisplayName());
-                    questionDTO.setDifficulty(QuestionDifficultEnum.valueOf(String.valueOf(questionEntity.getDifficult())).getDisplayName());
+                    questionDTO.setDifficult(QuestionDifficultEnum.valueOf(String.valueOf(questionEntity.getDifficult())).getDisplayName());
 
                     // Lấy tên danh mục
                     Optional<QuestionCategoryEntity> optionalCategory = questionCategoryRepository.findById(questionEntity.getQuestionCategoryId());
@@ -101,7 +101,7 @@ public class QuestionService {
 
             // Chuyển loại câu hỏi và độ khó sang tên hiển thị
             questionDTO.setType(QuestionTypeEnum.valueOf(String.valueOf(questionEntity.getType())).getDisplayName());
-            questionDTO.setDifficulty(QuestionDifficultEnum.valueOf(String.valueOf(questionEntity.getDifficult())).getDisplayName());
+            questionDTO.setDifficult(QuestionDifficultEnum.valueOf(String.valueOf(questionEntity.getDifficult())).getDisplayName());
 
             // Lấy tên danh mục
             Optional<QuestionCategoryEntity> optionalCategory = questionCategoryRepository.findById(questionEntity.getQuestionCategoryId());
@@ -123,7 +123,7 @@ public class QuestionService {
         // Cập nhật thông tin câu hỏi
         questionEntity.setTitle(questionDTO.getTitle());
         questionEntity.setType(QuestionTypeEnum.valueOf(questionDTO.getType()));
-        questionEntity.setDifficult(QuestionDifficultEnum.valueOf(questionDTO.getDifficulty()));
+        questionEntity.setDifficult(QuestionDifficultEnum.valueOf(questionDTO.getDifficult()));
 
         // Lấy danh mục từ DB và cập nhật
         QuestionCategoryEntity categoryEntity;
@@ -192,7 +192,7 @@ public class QuestionService {
 
         // Chuyển loại câu hỏi và độ khó sang tên hiển thị
         questionDTO.setType(QuestionTypeEnum.valueOf(String.valueOf(questionEntity.getType())).getDisplayName());
-        questionDTO.setDifficulty(QuestionDifficultEnum.valueOf(String.valueOf(questionEntity.getDifficult())).getDisplayName());
+        questionDTO.setDifficult(QuestionDifficultEnum.valueOf(String.valueOf(questionEntity.getDifficult())).getDisplayName());
 
         return questionDTO;
     }

@@ -12,7 +12,7 @@ public class QuestionDTO {
     private Long id;
     private String title;
     private String type; // Kiểu dạng String
-    private String difficulty; // Dạng String
+    private String difficult; // Dạng String
     private String categoryName; // Chỉ hiển thị tên danh mục
     private List<AnswerDTO> answers;
 }

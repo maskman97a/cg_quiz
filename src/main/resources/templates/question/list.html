@@ -35,7 +35,7 @@
             <th>Tiêu đề</th>
             <th>Loại câu hỏi</th>
             <th>Độ khó</th>
-            <th>Danh mục</th>
+<!--            <th>Danh mục</th>-->
             <th>Hành động</th>
         </tr>
         </thead>
@@ -44,7 +44,7 @@
             <td th:text="${question.title}"></td>
             <td th:text="${question.type}"></td>
             <td th:text="${question.difficult}"></td>
-            <td th:text="${question.questionCategoryId}"></td>
+<!--            <td th:text="${question.questionCategoryId}"></td>-->
             <td>
                 <a class="btn btn-info btn-sm" th:href="@{/questions/{id}(id=${question.id})}">Xem</a>
                 <a class="btn btn-warning btn-sm" th:href="@{/questions/edit/{id}(id=${question.id})}">Sửa</a>
