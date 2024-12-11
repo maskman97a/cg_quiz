@@ -23,6 +23,8 @@ public class QuestionController extends BaseController {
 
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private QuestionCategoryService questionCategoryService;
 
     /**
      * Hiển thị danh sách câu hỏi với phân trang
@@ -85,7 +87,8 @@ public class QuestionController extends BaseController {
     public String editQuestionForm(HttpServletRequest req, @PathVariable Long id, Model model) {
         try {
             QuestionDTO question = questionService.getQuestionById(id);
-            model.addAttribute("questionDTO", question);
+            model.addAttribute("question", question);
+            model.addAttribute("categories", questionCategoryService.getAllCategories(1, 9999).getContent());
             return renderPage(req, model, "question", "edit");
         } catch (RuntimeException e) {
             model.addAttribute("error", e.getMessage());

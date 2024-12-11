@@ -14,5 +14,6 @@ public class QuestionDTO {
     private String type; // Kiểu dạng String
     private String difficult; // Dạng String
     private String categoryName; // Chỉ hiển thị tên danh mục
+    private Long questionCategoryId;
     private List<AnswerDTO> answers;
 }
