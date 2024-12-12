@@ -3,148 +3,155 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Update Exam</title>
+  <title>Update Exam List</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body {
-      background: linear-gradient(to right, #f0f4f8, #d1e0e0);
+      background: linear-gradient(to right, #eef2f3, #8e9eab);
       font-family: 'Poppins', sans-serif;
     }
 
     .container {
-      max-width: 800px;
-      margin-top: 50px;
+      max-width: 1200px;
     }
 
     .header {
       text-align: center;
       padding: 20px;
-      background-color: #4e73df;
-      color: white;
+      background-color: #1d3557;
+      color: #fff;
       border-radius: 10px;
+      margin-bottom: 20px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
-    .form-container {
-      background: #fff;
-      padding: 40px;
-      border-radius: 10px;
+    .table-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-      margin-top: 30px;
     }
 
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-control {
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      box-shadow: none;
-    }
-
-    .form-control:focus {
-      border-color: #4e73df;
-      box-shadow: 0 0 5px rgba(78, 115, 223, 0.5);
-    }
-
-    .btn-submit {
-      font-size: 16px;
+    h1 {
       font-weight: bold;
+    }
+
+    .table th {
+      background-color: #457b9d;
+      color: #ffffff;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .table td {
+      text-align: center;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: #f0f7ff;
+    }
+
+    .btn-save {
+      background-color: #2a9d8f;
       color: #fff;
-      background-color: #4e73df;
       border: none;
-      padding: 12px 20px;
+      padding: 10px 20px;
       border-radius: 30px;
-      width: 100%;
+      font-size: 14px;
+      font-weight: bold;
       transition: all 0.3s ease;
     }
 
-    .btn-submit:hover {
-      background-color: #2e59d9;
+    .btn-save:hover {
+      background-color: #1b7765;
     }
 
-    .btn-back {
-      font-size: 16px;
-      font-weight: bold;
+    .footer {
+      text-align: center;
+      padding: 10px 0;
+      margin-top: 20px;
+      font-size: 14px;
+      background-color: #1d3557;
       color: #fff;
-      background-color: #e63946;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 30px;
-      width: 100%;
-      margin-top: 15px;
-      transition: all 0.3s ease;
+      border-radius: 10px;
     }
-
-    .btn-back:hover {
-      background-color: #d62c1a; /* Đổi màu khi hover */
-    }
-
-    .form-group label {
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
-
-    .form-group input, .form-group select {
-      font-size: 1rem;
-      padding: 10px;
-    }
-
-    .form-container .errors {
-      color: #e63946;
-      font-size: 0.9rem;
-    }
-
   </style>
 </head>
 <body>
-<div class="container">
+<div class="container my-5">
+  <!-- Header -->
   <div class="header">
-    <h1>Update Exam</h1>
+    <h1>Update Exam List</h1>
   </div>
 
-  <div class="form-container">
-    <form th:action="@{/exam/update/{id}(id=${exam.id})}" th:object="${exam}" method="POST">
-      <div class="form-group">
-        <label for="name">Tên Bài Thi:</label>
-        <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Nhập tên bài thi">
-        <div th:if="${#fields.hasErrors('name')}" class="errors" th:errors="*{name}"></div>
+  <!-- Table Container -->
+  <div class="table-container">
+    <form th:action="@{/exam/update}" method="post">
+      <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+          <th>Exam Name</th>
+          <th>Total Questions</th>
+          <th>Exam Type</th>
+          <th>Total Time</th>
+          <th>Passing Score</th>
+          <th>Created Date</th>
+          <th>Created By</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="exam, iterStat : ${examList}">
+          <td>
+            <input type="text" th:name="'examList[' + ${iterStat.index} + '].name'"
+                   th:value="${exam.name}" class="form-control">
+          </td>
+          <td>
+            <input type="number" th:name="'examList[' + ${iterStat.index} + '].totalQuestion'"
+                   th:value="${exam.totalQuestion}" class="form-control">
+          </td>
+          <td>
+            <select th:name="'examList[' + ${iterStat.index} + '].type'" class="form-control">
+              <option th:each="type : ${#type.values()}" th:value="${type}"
+                      th:text="${type}" th:selected="${exam.type == type}">
+              </option>
+            </select>
+          </td>
+          <td>
+            <input type="number" th:name="'examList[' + ${iterStat.index} + '].totalTime'"
+                   th:value="${exam.totalTime}" class="form-control">
+          </td>
+          <td>
+            <input type="number" th:name="'examList[' + ${iterStat.index} + '].graduateMark'"
+                   th:value="${exam.graduateMark}" class="form-control">
+          </td>
+          <td th:text="${exam.createdAt}"></td>
+          <td th:text="${exam.createdBy}"></td>
+          <td>
+            <a th:href="@{/exam/delete/{id}(id=${exam.id})}" class="btn btn-sm btn-delete">
+              <i class="fas fa-trash-alt"></i> Delete
+            </a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="text-right">
+        <button type="submit" class="btn btn-save">Save Changes</button>
       </div>
-
-      <div class="form-group">
-        <label for="totalQuestion">Số Lượng Câu Hỏi:</label>
-        <input type="number" id="totalQuestion" th:field="*{totalQuestion}" class="form-control" placeholder="Nhập số câu hỏi">
-        <div th:if="${#fields.hasErrors('totalQuestion')}" class="errors" th:errors="*{totalQuestion}"></div>
-      </div>
-
-      <div class="form-group">
-        <label for="totalTime">Thời Gian Làm Bài (Phút):</label>
-        <input type="number" id="totalTime" th:field="*{totalTime}" class="form-control" placeholder="Nhập thời gian làm bài">
-        <div th:if="${#fields.hasErrors('totalTime')}" class="errors" th:errors="*{totalTime}"></div>
-      </div>
-
-      <div class="form-group">
-        <label for="type">Loại Đề Thi:</label>
-        <select id="type" th:field="*{type}" class="form-control">
-          <option value="EASY">Dễ</option>
-          <option value="NORMAL">Trung Bình</option>
-          <option value="HARD">Khó</option>
-        </select>
-        <div th:if="${#fields.hasErrors('type')}" class="errors" th:errors="*{type}"></div>
-      </div>
-
-      <div class="form-group">
-        <label for="graduateMark">Điểm Đạt:</label>
-        <input type="number" id="graduateMark" th:field="*{graduateMark}" class="form-control" placeholder="Nhập điểm đạt">
-        <div th:if="${#fields.hasErrors('graduateMark')}" class="errors" th:errors="*{graduateMark}"></div>
-      </div>
-
-      <button type="submit" class="btn-submit">Chỉnh Sửa</button>
-      <a href="/exam/list" class="btn btn-back">Quay Lại Danh Sách</a>
     </form>
   </div>
 </div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>&copy; Đại Học Thành Phố Đà Nẵng</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -84,7 +84,6 @@ public class QuestionController extends BaseController {
     @GetMapping("/create")
     public String createQuestionForm(HttpServletRequest req, Model model) {
         model.addAttribute("question", new QuestionDTO());
-        model.addAttribute("categories", questionCategoryService.getAllCategories(1, 9999).getContent());
         return renderPage(req, model, "question", "create");
     }
 
