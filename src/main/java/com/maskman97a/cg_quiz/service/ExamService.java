@@ -267,4 +267,24 @@ public class ExamService {
     public void updateExam(ExamEntity exam) {
         examRepository.save(exam);
     }
+
+    public boolean canDeleteExam(Long id) {
+        return true;
+    }
+
+    public void deleteExam(Long id) {
+        examRepository.deleteById(id);
+    }
+
+    public Page<ExamEntity> getExamList(Pageable pageable) {
+        return examRepository.findAll(pageable);
+    }
+
+    public ExamEntity findById(Long id) {
+        return examRepository.findById(id).orElseThrow(() -> new RuntimeException("Exam not found"));
+    }
+
+    public Page<ExamEntity> searchExamsByName(String searchQuery, Pageable pageable) {
+        return examRepository.findByNameContainingIgnoreCase(searchQuery, pageable);
+    }
 }

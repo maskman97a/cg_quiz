@@ -158,7 +158,12 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Quizizz Admin</a>
+        <div class="home-button">
+            <a class="btn" href="/home" title="Back Home">
+                <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" height="30px" alt="Home Icon">
+                Quiz
+            </a>
+        </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -184,9 +189,8 @@
 
 <!-- Sidebar -->
 <div class="sidebar" style="padding-top:60px">
-    <a href="/exam">Làm quiz</a>
-
     <div th:if="${fullName !=null && fullName !='' }">
+        <a href="/exam">Làm quiz</a>
         <a href="/exam/history">Lịch sử thi</a>
         <a href="/user/view">Thông tin cá nhân</a>
         <a href="/auth/logout" class="text-danger">Đăng xuất</a>
@@ -220,31 +224,36 @@
         <div th:insert="~{category/category}"></div>
     </div>
     <div th:if="${tabName =='home'}">
-        <h1 class="mb-4 text-primary">Quiz Management</h1>
-        <div class="quiz-grid">
-            <!-- Quiz Card -->
-            <div class="card">
-                <img src=" https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyYFlWZe8Pk8TsFv6j0pPW_RmfvZsbSQcarA&s" class="card-img-top" alt="Category">
-                <div class="card-body">
-                    <h5 class="card-title">Category</h5>
-                    <p class="card-text"></p>
-                    <a href="/question-categories" class="btn btn-primary">View List</a>
+        <div th:if="${fullName !=null && fullName !='' }">
+            <h1 class="mb-4 text-primary">Quiz Management</h1>
+            <div class="quiz-grid">
+                <!-- Quiz Card -->
+                <div class="card">
+                    <img src=" https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyYFlWZe8Pk8TsFv6j0pPW_RmfvZsbSQcarA&s"
+                         class="card-img-top" alt="Category">
+                    <div class="card-body">
+                        <h5 class="card-title">Category</h5>
+                        <p class="card-text"></p>
+                        <a href="/question-categories" class="btn btn-primary">View List</a>
+                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <img src="https://media.istockphoto.com/id/1386740242/vector/vector-bubbles-with-question-mark-question-icons-isolated-on-white.jpg?s=612x612&w=0&k=20&c=evjrckVKb_RVRcN5qV1Tz1pkSu3FvHKCGtynu8btxhA= " class="card-img-top" alt="Questions">
-                <div class="card-body">
-                    <h5 class="card-title">Question</h5>
-                    <p class="card-text"></p>
-                    <a href="/questions" class="btn btn-primary">View List</a>
+                <div class="card">
+                    <img src="https://media.istockphoto.com/id/1386740242/vector/vector-bubbles-with-question-mark-question-icons-isolated-on-white.jpg?s=612x612&w=0&k=20&c=evjrckVKb_RVRcN5qV1Tz1pkSu3FvHKCGtynu8btxhA= "
+                         class="card-img-top" alt="Questions">
+                    <div class="card-body">
+                        <h5 class="card-title">Question</h5>
+                        <p class="card-text"></p>
+                        <a href="/questions" class="btn btn-primary">View List</a>
+                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkRKtAS4ommToIKRqnnU3F0S8XRwNa6nYZMjIexdBfREkWd-ORp9cfdylGbZUMWSGSf3s&usqp=CAU " class="card-img-top" alt="Exams">
-                <div class="card-body">
-                    <h5 class="card-title">Exam</h5>
-                    <p class="card-text"></p>
-                    <a href="/exam/list" class="btn btn-primary">View List</a>
+                <div class="card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkRKtAS4ommToIKRqnnU3F0S8XRwNa6nYZMjIexdBfREkWd-ORp9cfdylGbZUMWSGSf3s&usqp=CAU "
+                         class="card-img-top" alt="Exams">
+                    <div class="card-body">
+                        <h5 class="card-title">Exam</h5>
+                        <p class="card-text"></p>
+                        <a href="/exam/list" class="btn btn-primary">View List</a>
+                    </div>
                 </div>
             </div>
         </div>

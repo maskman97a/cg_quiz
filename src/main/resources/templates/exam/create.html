@@ -6,48 +6,51 @@
     <title>Thêm Bài Thi</title>
 </head>
 <body>
-<div class="form-container">
-    <h1>Thêm Bài Thi</h1>
-    <form th:action="@{/exam/create}" th:object="${exam}" method="post">
-        <div class="form-group">
-            <label for="name">Tên Bài Thi:</label>
-            <input class="form-control" type="text" id="name" th:field="*{name}" placeholder="Nhập tên bài thi">
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>Thêm Bài Thi</h1>
+    </div>
 
-        <div class="form-group">
-            <label for="totalQuestion">Số Lượng Câu Hỏi:</label>
-            <input class="form-control" type="number" id="totalQuestion" th:field="*{totalQuestion}"
-                   placeholder="Nhập số câu hỏi">
-            <span th:if="${#fields.hasErrors('totalQuestion')}" th:errors="*{totalQuestion}"></span>
-        </div>
+    <div class="form-container">
+        <form th:action="@{/exam/create}" th:object="${exam}" method="POST">
+            <div class="form-group">
+                <label for="name">Tên Bài Thi:</label>
+                <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Nhập tên bài thi">
+                <div th:if="${#fields.hasErrors('name')}" class="errors" th:errors="*{name}"></div>
+            </div>
 
-        <div class="form-group">
-            <label for="totalTime">Thời Gian Làm Bài (Phút):</label>
-            <input class="form-control" type="number" id="totalTime" th:field="*{totalTime}"
-                   placeholder="Nhập thời gian làm bài">
-            <span th:if="${#fields.hasErrors('totalTime')}" th:errors="*{totalTime}"></span>
-        </div>
+            <div class="form-group">
+                <label for="totalQuestion">Số Lượng Câu Hỏi:</label>
+                <input type="number" id="totalQuestion" th:field="*{totalQuestion}" class="form-control" placeholder="Nhập số câu hỏi">
+                <div th:if="${#fields.hasErrors('totalQuestion')}" class="errors" th:errors="*{totalQuestion}"></div>
+            </div>
 
-        <div class="form-group">
-            <label for="type">Loại Đề Thi:</label>
-            <select class="form-control" id="type" th:field="*{type}">
-                <option value="EASY">Dễ</option>
-                <option value="NORMAL">Trung Bình</option>
-                <option value="HARD">Khó</option>
-            </select>
-            <span th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
-        </div>
+            <div class="form-group">
+                <label for="totalTime">Thời Gian Làm Bài (Phút):</label>
+                <input type="number" id="totalTime" th:field="*{totalTime}" class="form-control" placeholder="Nhập thời gian làm bài">
+                <div th:if="${#fields.hasErrors('totalTime')}" class="errors" th:errors="*{totalTime}"></div>
+            </div>
 
-        <div class="form-group">
-            <label for="graduateMark">Điểm Đạt:</label>
-            <input class="form-control" type="number" id="graduateMark" th:field="*{graduateMark}"
-                   placeholder="Nhập điểm đạt">
-            <span th:if="${#fields.hasErrors('graduateMark')}" th:errors="*{graduateMark}"></span>
-        </div>
+            <div class="form-group">
+                <label for="type">Loại Đề Thi:</label>
+                <select id="type" th:field="*{type}" class="form-control">
+                    <option value="EASY">Dễ</option>
+                    <option value="NORMAL">Trung Bình</option>
+                    <option value="HARD">Khó</option>
+                </select>
+                <div th:if="${#fields.hasErrors('type')}" class="errors" th:errors="*{type}"></div>
+            </div>
 
-        <button class="btn btn-primary" type="submit">Tạo Mới</button>
-    </form>
+            <div class="form-group">
+                <label for="graduateMark">Điểm Đạt:</label>
+                <input type="number" id="graduateMark" th:field="*{graduateMark}" class="form-control" placeholder="Nhập điểm đạt">
+                <div th:if="${#fields.hasErrors('graduateMark')}" class="errors" th:errors="*{graduateMark}"></div>
+            </div>
+
+            <button type="submit" class="btn-submit">Tạo Mới</button>
+            <a href="/exam/list" class="btn btn-back">Quay Lại Danh Sách</a>
+        </form>
+    </div>
 </div>
 </body>
 </html>

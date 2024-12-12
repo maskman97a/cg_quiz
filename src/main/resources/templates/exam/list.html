@@ -6,48 +6,76 @@
     <title>Document</title>
 </head>
 <body>
-<!-- Header -->
-<div class="header">
-    <h1>List Exam</h1>
-</div>
-
-<!-- Button Create -->
-<div class="text-right">
-    <a href="/exam/create" class="btn btn-create">+ Create New Exam</a>
-</div>
 
 <!-- Table Container -->
 <div class="table-container">
-    <table class="table table-hover table-bordered">
-        <thead>
-        <tr>
-            <th>Exam Name</th>
-            <th>Total Questions</th>
-            <th>Exam Type</th>
-            <th>Total Time</th>
-            <th>Passing Score</th>
-            <th>Created Date</th>
-            <th>Created By</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="exam : ${examList}">
-            <td th:text="${exam.name}"></td>
-            <td th:text="${exam.totalQuestion}"></td>
-            <td th:text="${exam.type}"></td>
-            <td th:text="${exam.totalTime}"></td>
-            <td th:text="${exam.graduateMark}"></td>
-            <td th:text="${exam.createdAt}"></td>
-            <td th:text="${exam.createdBy}"></td>
-            <td class="action-buttons">
-                <a href="/exam/update/{exam.id}" class="btn btn-sm btn-edit"><i class="fas fa-edit"></i> Edit</a>
-                <a href="/exam/delete/{exam.id}" class="btn btn-sm btn-delete"><i class="fas fa-trash-alt"></i>
-                    Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="header">
+        <h1>Quản lý Đề Thi - Danh sách</h1>
+    </div>
+
+    <!-- Button Create -->
+    <div class="text-right">
+        <a href="/exam/create" class="btn btn-create">+ Tạo Đề Thi Mới</a>
+    </div>
+    <!-- Search Form -->
+    <div class="text-right" style="margin-bottom: 20px;">
+        <form action="/exam/search" method="GET" class="form-inline">
+            <input type="text" class="form-control" name="searchQuery" placeholder="Tìm kiếm tên bài thi">
+            <button type="submit" class="btn btn-info ml-2">Tìm kiếm</button>
+        </form>
+    </div>
+
+    <!-- Table Container -->
+    <div class="table-container">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>Tên Đề Thi</th>
+                <th>Tổng Số Câu Hỏi</th>
+                <th>Loại Đề Thi</th>
+                <th>Tổng Thời Gian</th>
+                <th>Điểm Đậu</th>
+                <th>Ngày Tạo</th>
+                <th>Người Tạo</th>
+                <th>Hành Động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exam : ${examList}">
+                <td th:text="${exam.name}"></td>
+                <td th:text="${exam.totalQuestion}"></td>
+                <td th:text="${exam.type}"></td>
+                <td th:text="${exam.totalTime}"></td>
+                <td th:text="${exam.graduateMark}"></td>
+                <td th:text="${exam.createdAt}"></td>
+                <td th:text="${exam.createdBy}"></td>
+                <td class="action-buttons">
+                    <a th:href="@{/exam/update/{id}(id=${exam.id})}" class="btn btn-sm btn-edit"><i
+                            class="fas fa-edit"></i> Sửa</a>
+                    <a th:href="@{/exam/delete/{id}(id=${exam.id})}" class="btn btn-sm btn-delete"
+                       onclick="return confirm('Bạn có chắc chắn muốn xóa đề thi này?')"><i
+                            class="fas fa-trash-alt"></i> Xóa</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <ul class="pagination">
+                <li th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a th:href="@{/exam/list(page=${currentPage - 1})}" class="page-link">Trước</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a th:href="@{/exam/list(page=${i})}" class="page-link" th:text="${i + 1}"></a>
+                </li>
+                <li th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                    <a th:href="@{/exam/list(page=${currentPage + 1})}" class="page-link">Tiếp theo</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 </body>
 </html>
