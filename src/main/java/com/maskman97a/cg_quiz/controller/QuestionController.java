@@ -83,7 +83,7 @@ public class QuestionController extends BaseController {
      */
     @GetMapping("/create")
     public String createQuestionForm(HttpServletRequest req, Model model) {
-        model.addAttribute("questionDTO", new QuestionDTO());
+        model.addAttribute("question", new QuestionDTO());
         return renderPage(req, model, "question", "create");
     }
 
