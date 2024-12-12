@@ -38,7 +38,7 @@
 
         <div class="mb-3">
             <label for="category" class="form-label">Danh mục câu hỏi</label>
-            <select id="category" class="form-control" th:field="*{category.id}" required>
+            <select id="category" class="form-control" required>
                 <option th:each="category : ${categories}"
                         th:value="${category.id}"
                         th:text="${category.name}"></option>
