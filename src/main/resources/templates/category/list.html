@@ -60,9 +60,43 @@
         .create-btn:hover {
             background-color: #0056b3;
         }
+        .home-button {
+            position: fixed; /* Cố định vị trí */
+            bottom: 20px; /* Cách đáy 20px */
+            right: 20px; /* Cách phải 20px */
+            z-index: 1000; /* Luôn ở trên các thành phần khác */
+        }
+
+        .home-button a {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: #f06595; /* Màu nền */
+            border-radius: 50%; /* Làm nút tròn */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+            transition: transform 0.3s, background-color 0.3s; /* Hiệu ứng khi hover */
+        }
+
+        .home-button a:hover {
+            background-color: #ff6b6b; /* Đổi màu nền khi hover */
+            transform: scale(1.1); /* Phóng to khi hover */
+        }
+
+        .home-button img {
+            width: 60%; /* Kích thước hình icon */
+            height: 60%;
+            margin: 20%;
+            filter: invert(1); /* Đổi màu icon thành trắng */
+        }
+
     </style>
 </head>
 <body>
+<div class="home-button">
+    <a href="/home" title="Back Home">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Home Icon">
+    </a>
+</div>
 <div class="container">
     <h1>Category List</h1>
     <a class="create-btn" th:href="@{/question-categories/add}">Create New Category</a>
