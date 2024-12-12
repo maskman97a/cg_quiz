@@ -24,9 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class DataUtils {
@@ -465,9 +463,5 @@ public class DataUtils {
         }
 
         return "****@" + domainPart; // For very short local parts
-    }
-
-    public static <T, R> List<R> convertList(List<T> list, Function<T, R> func) {
-        return list.stream().map(func).collect(Collectors.toList());
     }
 }

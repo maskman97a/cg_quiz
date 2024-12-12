@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name = "email")
+@AllArgsConstructor
+@NoArgsConstructor
 @SQLRestriction("is_deleted = 0")
 @SQLDelete(sql = "UPDATE email SET is_deleted = 1 WHERE id = ?")
 public class EmailEntity extends BaseEntity {

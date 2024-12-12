@@ -16,11 +16,10 @@ import java.util.List;
 public class AdminService extends BaseEntity {
     private final UserRepository userRepository;
 
-    public Object getListStudentAccount() {
+    public void getListStudentAccount() {
         Pageable pageable = Pageable.ofSize(20);
-        return userRepository.findByUserTypeOrderByCreatedAtDesc(pageable, UserTypeEnum.STUDENT);
+        List<UserEntity> studentAccountList = userRepository.findByUserTypeOrderByCreatedAtDesc(pageable, UserTypeEnum.STUDENT);
     }
-
     public void getListTeacherAccount() {
         Pageable pageable = Pageable.ofSize(20);
         List<UserEntity> studentAccountList = userRepository.findByUserTypeOrderByCreatedAtDesc(pageable, UserTypeEnum.STUDENT);

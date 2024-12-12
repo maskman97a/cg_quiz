@@ -40,9 +40,10 @@ public class SecurityConfig {
 //                        .requestMatchers("**").permitAll()
                                 .requestMatchers("/auth/login", "/auth/register", "/auth/forget", "/home", "/").permitAll()
                                 .requestMatchers("/js/**", "/css/**", "/images/**", "favicon.ico").permitAll()
-                                .requestMatchers("/teacher/**").permitAll()
                                 .requestMatchers("/exam/**").permitAll()
-                                .requestMatchers("/questions/**").permitAll()
+                                .requestMatchers("/exam/list").permitAll()
+                                .requestMatchers("/exam/create").permitAll()
+                                .requestMatchers("/exam-details/**").permitAll()
                                 .requestMatchers("/admin/**").hasAuthority(UserTypeEnum.ADMIN.name())
                                 .requestMatchers("/teacher/**").hasAuthority(UserTypeEnum.TEACHER.name())
                                 .requestMatchers("/student/**").hasAuthority(UserTypeEnum.STUDENT.name())
@@ -51,7 +52,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/auth/login")  // Đường dẫn đến trang đăng nhập
                         .loginProcessingUrl("/auth/login")  // URL xử lý đăng nhập
-                        .defaultSuccessUrl("/", true)  // Điều hướng về trang chủ khi thành công
+                        .defaultSuccessUrl("/home", true)  // Điều hướng về trang chủ khi thành công
                         .failureUrl("/auth/login?error=true")  // Điều hướng về trang lỗi khi thất bại
                         .permitAll()
                 )
