@@ -1,11 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quizizz Admin</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script th:src="@{/js/script.js}"></script>
+    <script th:src="@{/js/crypto.js}"></script>
+
+    <!-- Datepicker CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -130,12 +149,16 @@
         }
     </style>
 </head>
-<body>
+<body style="height: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;">
 
-<!-- Navbar -->
+
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Quizizz Admin</a>
+        <a class="navbar-brand" href="/">Quizizz Admin</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -143,10 +166,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-light ml-2" href="/login">Log in</a>
+                    <a class="btn btn-outline-light ml-2" href="/login"
+                       th:if="${fullName == null && tabName != 'auth'}">Log in</a>
+
+                    <div th:if="${fullName !=null && fullName !='' }" class="col-12 pb-3 pt-3 align-self-end row m-0">
+                        <div class="border bg-light rounded p-1">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4So53hM-fKiSCd6zwsuTRWwB5-o0xA9aJIw&s"
+                                 alt="Avatar" width="50px" class="ratio-1x1" sizes="z-index: 0"/>
+                            <span th:text="${fullName}"></span>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -154,50 +183,79 @@
 </nav>
 
 <!-- Sidebar -->
-<div class="sidebar">
-    <a href="#">My Quizzes</a>
-    <a href="#">Reports</a>
-    <a href="#">Settings</a>
-    <a href="#">Profile</a>
+<div class="sidebar" style="padding-top:60px">
+    <a href="/exam">Làm quiz</a>
+
+    <div th:if="${fullName !=null && fullName !='' }">
+        <a href="/exam/history">Lịch sử thi</a>
+        <a href="/user/view">Thông tin cá nhân</a>
+        <a href="/auth/logout" class="text-danger">Đăng xuất</a>
+    </div>
 </div>
 
 <!-- Main Content -->
-<div class="content">
-    <h1 class="mb-4 text-primary">Quiz Management</h1>
-    <div class="quiz-grid">
-        <!-- Quiz Card -->
-        <div class="card">
-            <img src="" class="card-img-top" alt="Category">
-            <div class="card-body">
-                <h5 class="card-title">Category</h5>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">View List</a>
-            </div>
+<div class="content" style="height: 100%">
+    <div th:if="${roleName != 'admin'}">
+        <div th:if="${tabName == 'auth'}">
+            <div th:replace="~{auth/auth}"></div>
         </div>
-        <div class="card">
-            <img src="" class="card-img-top" alt="Questions">
-            <div class="card-body">
-                <h5 class="card-title">Question</h5>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">View List</a>
+    </div>
+    <div th:if="${roleName == 'admin'}" class="row align-items-start">
+        <div th:replace="~{admin/admin}"></div>
+    </div>
+    <div th:if="${fullName != null && fullName != ''}">
+        <div th:insert="~{user/user}"></div>
+
+    </div>
+    <div th:if="${tabName =='teacher'}">
+        <div th:insert="~{teacher/teacher}"></div>
+    </div>
+    <div th:if="${tabName =='exam'}">
+        <div th:insert="~{exam/exam}"></div>
+    </div>
+    <div th:if="${tabName =='question'}">
+        <div th:insert="~{question/question}"></div>
+    </div>
+    <div th:if="${tabName =='question_category'}">
+        <div th:insert="~{category/category}"></div>
+    </div>
+    <div th:if="${tabName =='home'}">
+        <h1 class="mb-4 text-primary">Quiz Management</h1>
+        <div class="quiz-grid">
+            <!-- Quiz Card -->
+            <div class="card">
+                <img src=" https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyYFlWZe8Pk8TsFv6j0pPW_RmfvZsbSQcarA&s" class="card-img-top" alt="Category">
+                <div class="card-body">
+                    <h5 class="card-title">Category</h5>
+                    <p class="card-text"></p>
+                    <a href="/question-categories" class="btn btn-primary">View List</a>
+                </div>
             </div>
-        </div>
-        <div class="card">
-            <img src="" class="card-img-top" alt="Exams">
-            <div class="card-body">
-                <h5 class="card-title">Exam</h5>
-                <p class="card-text"></p>
-                <a href="/exam/list" class="btn btn-primary">View List</a>
+            <div class="card">
+                <img src="https://media.istockphoto.com/id/1386740242/vector/vector-bubbles-with-question-mark-question-icons-isolated-on-white.jpg?s=612x612&w=0&k=20&c=evjrckVKb_RVRcN5qV1Tz1pkSu3FvHKCGtynu8btxhA= " class="card-img-top" alt="Questions">
+                <div class="card-body">
+                    <h5 class="card-title">Question</h5>
+                    <p class="card-text"></p>
+                    <a href="/questions" class="btn btn-primary">View List</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkRKtAS4ommToIKRqnnU3F0S8XRwNa6nYZMjIexdBfREkWd-ORp9cfdylGbZUMWSGSf3s&usqp=CAU " class="card-img-top" alt="Exams">
+                <div class="card-body">
+                    <h5 class="card-title">Exam</h5>
+                    <p class="card-text"></p>
+                    <a href="/exam/list" class="btn btn-primary">View List</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Footer -->
-<div class="footer">
-    &copy;
-</div>
+<footer>
+    <div class="footer">
+        &copy; Codegym
+    </div>
+</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -20,7 +20,7 @@ public class AuthController extends BaseController {
 
     @GetMapping("/login")
     public String loginPage(HttpServletRequest httpServletRequest) {
-        return renderPage(httpServletRequest, "auth", "login");
+        return renderPage(httpServletRequest,"auth", "login");
     }
 
 

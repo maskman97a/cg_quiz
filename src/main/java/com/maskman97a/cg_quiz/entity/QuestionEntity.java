@@ -3,42 +3,28 @@ package com.maskman97a.cg_quiz.entity;
 import com.maskman97a.cg_quiz.dto.enums.QuestionDifficultEnum;
 import com.maskman97a.cg_quiz.dto.enums.QuestionTypeEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name= "question")
+@Table(name = "question")
 public class QuestionEntity extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "title")
+
+    @Column(name = "title", nullable = false)
     private String title;
 
-    public void setType(QuestionTypeEnum questionTypeEnum) {
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private QuestionTypeEnum type;
 
-    public void setDifficult(QuestionDifficultEnum questionDifficultEnum) {
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(name = "difficult_level", nullable = false)
+    private QuestionDifficultEnum difficult;
 
-    public void setQuestionCategoryId(Long id) {
-    }
-
-    public char[] getType() {
-        return null;
-    }
-
-    public char[] getDifficult() {
-        return null;
-    }
-
-    public Long getQuestionCategoryId() {
-        return null;
-    }
+    @Column(name = "question_category_id", nullable = false)
+    private Long questionCategoryId;
 }
