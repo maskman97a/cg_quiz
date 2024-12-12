@@ -27,28 +27,14 @@ public class HomeController extends BaseController {
         return homePage();
     }
 
-//    @GetMapping("/check")
-//    public String home(HttpServletRequest request, Model model) throws PermissionException {
-//        // Lấy thông tin người dùng từ Authentication
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetailDto userDetailDto = (UserDetailDto) authentication.getPrincipal();
-//
-//        String accountTypeMessage = "Đây là tài khoản loại: ";
-//        accountTypeMessage += UserTypeEnum.valueOf(userDetailDto.getRole()).name();
-//
-//        model.addAttribute("accountTypeMessage", accountTypeMessage);
-//
-//        // Kiểm tra và điều hướng theo loại tài khoản
-//        String role = userDetailDto.getRole();
-//        if (UserTypeEnum.ADMIN.name().equals(role)) {
-//            return "redirect:/admin"; // Điều hướng đến trang admin
-//        } else if (UserTypeEnum.TEACHER.name().equals(role)) {
-//            return "redirect:/teacher"; // Điều hướng đến trang teacher
-//        } else if (UserTypeEnum.STUDENT.name().equals(role)) {
-//            return "redirect:/student"; // Điều hướng đến trang student
-//        }
-//
-//        // Nếu không tìm thấy loại tài khoản hợp lệ, trả về trang lỗi
-//        return "error/403";
-//    }
+    @GetMapping("/home")
+    public String home(HttpServletRequest request, Model model) throws PermissionException {
+        String accountTypeMessage = "Đây là tài khoản loại: ";
+        // Lấy loại tài khoản từ thông tin xác thực
+        UserDetailDto userDetailDto = authentication(model, "STUDENT");
+        accountTypeMessage += UserTypeEnum.valueOf(userDetailDto.getRole()).name();
+        model.addAttribute("accountTypeMessage", accountTypeMessage);
+
+        return renderPage(request, model, null, null);
+    }
 }
