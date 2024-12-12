@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/questions")
@@ -36,11 +38,30 @@ public class QuestionController extends BaseController {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<QuestionDTO> questionPage = questionService.getQuestions(pageable);
 
+        int totalPages = questionPage.getTotalPages();
+
+        // Điều chỉnh page nếu vượt quá tổng số trang
+        if (page < 0) page = 0; // Đảm bảo page không âm
+        if (page >= totalPages && totalPages > 0) {
+            page = totalPages - 1; // Đảm bảo page không vượt quá tổng số trang
+            pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+            questionPage = questionService.getQuestions(pageable);
+        }
+
+        // Gán các thuộc tính vào Model để sử dụng trong view
         model.addAttribute("questionPage", questionPage);
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", questionPage.getTotalPages());
+        model.addAttribute("totalPages", totalPages);
+
+        // Gán danh sách các số trang (page numbers) để hiển thị
+        model.addAttribute("pageNumbers", totalPages > 0
+                ? IntStream.range(0, totalPages).boxed().collect(Collectors.toList())
+                : List.of());
+
         return renderPage(req, model, "question", "list");
     }
+
+
 
     /**
      * Xem chi tiết một câu hỏi

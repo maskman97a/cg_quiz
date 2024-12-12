@@ -1,4 +1,4 @@
-<!-- list.html -->
+    <!-- list.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -18,17 +18,19 @@
             </div>
             <div class="col-md-2">
                 <select name="difficult" class="form-select">
-                    <option value="">All difficulties</option>
-                    <option value="EASY">Easy</option>
-                    <option value="NORMAL">Normal</option>
-                    <option value="HARD">Hard</option>
+                    <option value="">Tất Cả</option>
+                    <option value="EASY">Dễ </option>
+                    <option value="NORMAL">Trung Bình </option>
+                    <option value="HARD">Khó </option>
                 </select>
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">Tìm Kiếm </button>
+                <a class="btn btn-info btn-sm" th:href="@{/questions/create}">Thêm mới</a>
             </div>
         </div>
     </form>
+
     <table class="table table-bordered table-striped">
         <thead class="table-light">
         <tr>
@@ -55,12 +57,22 @@
         </tbody>
     </table>
 
-    <div class="d-flex justify-content-between">
-        <a th:href="@{/templates/question/?page=${questionPage.number - 1}}"
-           class="btn btn-secondary" th:if="${questionPage.hasPrevious()}">Trang trước</a>
-        <a th:href="@{/templates/question/?page=${questionPage.number + 1}}"
-           class="btn btn-secondary" th:if="${questionPage.hasNext()}">Trang sau</a>
+    <div class="d-flex justify-content-center align-items-center my-3">
+        <!-- Nút Trang trước -->
+        <a th:href="@{/questions(page=${currentPage - 1},size=${questionPage.size})}"
+           class="btn btn-secondary mx-2"
+           th:if="${currentPage > 0}">Trang trước</a>
+        <span class="text-muted mx-2" th:if="${currentPage == 0}">Đây là trang đầu</span>
+
+        <!-- Nút Trang sau -->
+        <a th:href="@{/questions(page=${currentPage + 1},size=${questionPage.size})}"
+           class="btn btn-secondary mx-2"
+           th:if="${currentPage < totalPages - 1}">Trang sau</a>
+        <span class="text-muted mx-2" th:if="${currentPage == totalPages - 1}">Đây là trang cuối</span>
     </div>
+
+
+
 </div>
 
 <!-- Bootstrap JS -->
